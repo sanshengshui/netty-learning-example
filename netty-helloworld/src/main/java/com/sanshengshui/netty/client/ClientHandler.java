@@ -8,12 +8,13 @@ import io.netty.channel.ChannelHandler.Sharable;
 @Sharable
 public class ClientHandler extends SimpleChannelInboundHandler<String> {
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        super.exceptionCaught(ctx, cause);
+    protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
+        System.err.println(msg);
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, String s) throws Exception {
-
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        cause.printStackTrace();
+        ctx.close();
     }
 }
