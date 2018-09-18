@@ -14,6 +14,8 @@
     <modules>
         <!-- netty 之 helloworld详解-->
         <module>netty-helloworld</module>
+        <!-- netty 之 实现高性能http服务器-->
+        <module>netty-http</module>
     </modules>
 
 

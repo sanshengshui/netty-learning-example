@@ -12,3 +12,7 @@ gen
 /netty-helloworld/mvnw
 /netty-helloworld/.mvn/
 /netty-helloworld/target/
+/netty-http/.mvn/
+/netty-http/mvnw.cmd
+/netty-http/mvnw
+/netty-http/target/
