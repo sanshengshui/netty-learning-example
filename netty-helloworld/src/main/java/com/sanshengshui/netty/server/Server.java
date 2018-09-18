@@ -1,16 +1,14 @@
-package com.sanshengshui.netty;
+package com.sanshengshui.netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.util.AttributeKey;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 
-public class Server {
+public final class Server {
     public  static void main(String[] args) throws Exception {
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -18,16 +16,8 @@ public class Server {
             ServerBootstrap b = new ServerBootstrap();
             b.group(bossGroup,workerGroup)
                     .channel(NioServerSocketChannel.class)
-                    .childOption(ChannelOption.TCP_NODELAY,true)
-                    .childAttr(AttributeKey.newInstance("childAttr"),"childAttrValue")
-                    .handler(new ServerHandler())
-                    .childHandler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel ch) throws Exception {
-     //                       ch.pipeline().addLast()
-
-                        }
-                    });
+                    .handler(new LoggingHandler(LogLevel.INFO))
+                    .childHandler(new ServerInitializer());
             ChannelFuture f = b.bind(8888);
             f.channel().closeFuture().sync();
         } finally {
