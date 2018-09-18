@@ -3,11 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <name>netty :: Examples</name>
 
     <groupId>com.sanshengshui</groupId>
     <artifactId>let_netty_easy</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <!-- 基础 - 入门篇 -->
+    <modules>
+        <!-- netty 之 helloworld详解-->
+        <module>netty-helloworld</module>
+    </modules>
 
 
 </project>

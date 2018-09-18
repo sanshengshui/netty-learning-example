@@ -8,3 +8,7 @@
 out
 gen
 /let_netty_easy.iml
+/netty-helloworld/mvnw.cmd
+/netty-helloworld/mvnw
+/netty-helloworld/.mvn/
+/netty-helloworld/target/
