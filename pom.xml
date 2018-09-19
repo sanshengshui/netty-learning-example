@@ -16,6 +16,8 @@
         <module>netty-helloworld</module>
         <!-- netty 之 实现高性能http服务器-->
         <module>netty-http</module>
+        <!-- netty 之 netty整合springboot并使用protostuff进行数据传输-->
+        <module>netty-springboot-protostuff</module>
     </modules>
 
 

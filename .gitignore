@@ -16,3 +16,6 @@ gen
 /netty-http/mvnw.cmd
 /netty-http/mvnw
 /netty-http/target/
+/netty-springboot-protostuff/.mvn/
+/netty-springboot-protostuff/mvnw
+/netty-springboot-protostuff/mvnw.cmd
