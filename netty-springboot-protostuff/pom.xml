@@ -23,6 +23,7 @@
         <java.version>1.8</java.version>
         <netty-all.version>4.1.29.Final</netty-all.version>
         <protobuf.version>3.6.1</protobuf.version>
+        <grpc.version>1.15.0</grpc.version>
     </properties>
 
     <dependencies>
@@ -47,6 +48,22 @@
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
             <version>${protobuf.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty</artifactId>
+            <version>${grpc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-protobuf</artifactId>
+            <version>${grpc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-stub</artifactId>
+            <version>${grpc.version}</version>
         </dependency>
 
         <dependency>
