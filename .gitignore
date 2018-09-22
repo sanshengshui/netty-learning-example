@@ -19,3 +19,6 @@ gen
 /netty-springboot-protostuff/.mvn/
 /netty-springboot-protostuff/mvnw
 /netty-springboot-protostuff/mvnw.cmd
+/netty-mqtt-coap/mqtt/.mvn/
+/netty-mqtt-coap/mqtt/mvnw.cmd
+/netty-mqtt-coap/mqtt/mvnw

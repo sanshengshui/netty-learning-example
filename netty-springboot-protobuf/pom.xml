@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.sanshengshui</groupId>
-    <artifactId>netty-springboot-protostuff</artifactId>
+    <artifactId>netty-springboot-protobuf</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>netty :: Springboot :: Protostuff</name>
+    <name>netty :: Springboot :: Protobuf</name>
 
-    <description>netty整合springboot并使用protostuff进行数据传输</description>
+    <description>netty整合springboot并使用protosbuf进行数据传输</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
