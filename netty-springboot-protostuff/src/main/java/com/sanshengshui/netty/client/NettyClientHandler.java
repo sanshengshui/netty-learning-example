@@ -11,11 +11,10 @@ import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.ReferenceCountUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
-@Service("nettyClientHandler")
+
 @ChannelHandler.Sharable
 @Slf4j
 public class NettyClientHandler extends ChannelInboundHandlerAdapter {

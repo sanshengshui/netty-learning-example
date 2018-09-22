@@ -1,16 +1,20 @@
 package com.sanshengshui.netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.util.ResourceLeakDetector;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 @Service("nettyServer")
 @Slf4j
@@ -31,38 +35,41 @@ public class NettyServer {
     @Value("${server.netty.max_payload_size}")
     private Integer maxPayloadSize;
 
-
+    private  ChannelFuture channelFuture;
     private  EventLoopGroup bossGroup;
-
     private  EventLoopGroup workerGroup;
 
 
-    @Autowired
-    private NettyServerInitializer nettyServerInitializer;
+    @PostConstruct
+    public void init() throws Exception {
+            log.info("Setting resource leak detector level to {}",leakDetectorLevel);
+            ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.valueOf(leakDetectorLevel.toUpperCase()));
 
-
-    public void run() {
-        try {
+            log.info("Starting Server");
             bossGroup = new NioEventLoopGroup(bossGroupThreadCount);
             workerGroup = new NioEventLoopGroup(workerGroupThreadCount);
             ServerBootstrap b = new ServerBootstrap();
-            b.group(bossGroup, workerGroup);
-            b.channel(NioServerSocketChannel.class);
-            b.handler(new LoggingHandler(LogLevel.INFO));
-            // 设置过滤器
-            b.childHandler(nettyServerInitializer);
-            // 服务器绑定端口监听
-            ChannelFuture f = b.bind(port).sync();
-            log.info("服务端启动成功,端口是:" + port);
-            // 监听服务器关闭监听
-            f.channel().closeFuture().sync();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            b.group(bossGroup, workerGroup)
+                    .channel(NioServerSocketChannel.class)
+                    .handler(new LoggingHandler(LogLevel.INFO))
+                    .childHandler(new NettyServerInitializer());
+            channelFuture = b.bind(port).sync();
+
+            log.info("Server started!");
+
+    }
+
+    @PreDestroy
+    public void shutdown() throws InterruptedException {
+        log.info("Stopping Server");
+        try {
+            channelFuture.channel().closeFuture().sync();
         } finally {
-            // 关闭EventLoopGroup，释放掉所有资源包括创建的线程
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
         }
+        log.info("server stopped!");
+
     }
 
 }

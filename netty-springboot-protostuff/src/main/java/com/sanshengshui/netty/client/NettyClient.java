@@ -8,45 +8,61 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.concurrent.TimeUnit;
 
 @Service("nettyClient")
 @Slf4j
 public class NettyClient {
-    // ip地址
-    private String host = "127.0.0.1";
-    // 端口
-    private int port = 9876;
-    // 通过nio方式来接收连接和处理连接
-    private EventLoopGroup group = new NioEventLoopGroup();
 
-    @Autowired
-    private NettyClientInitializer nettyClientInitializer;
+
+    @Value("${server.bind_address}")
+    private String host;
+
+    @Value("${server.bind_port}")
+    private Integer port;
 
     /**唯一标记 */
     private boolean initFalg=true;
 
+    private EventLoopGroup group;
+    private ChannelFuture f;
+
+
+
     /**
      * Netty创建全部都是实现自AbstractBootstrap。 客户端的是Bootstrap，服务端的则是 ServerBootstrap。
      **/
-    public void run() {
+    @PostConstruct
+    public void init() {
+        group = new NioEventLoopGroup();
         doConnect(new Bootstrap(), group);
     }
 
+    @PreDestroy
+    public void shutdown() throws InterruptedException {
+        log.info("正在停止客户端");
+        try {
+            f.channel().closeFuture().sync();
+        } finally {
+            group.shutdownGracefully();
+        }
+        log.info("客户端已停止!");
+    }
     /**
      * 重连
      */
     public void doConnect(Bootstrap bootstrap, EventLoopGroup eventLoopGroup) {
-        ChannelFuture f = null;
         try {
             if (bootstrap != null) {
                 bootstrap.group(eventLoopGroup);
                 bootstrap.channel(NioSocketChannel.class);
                 bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
-                bootstrap.handler(nettyClientInitializer);
+                bootstrap.handler(new NettyClientInitializer());
                 bootstrap.remoteAddress(host, port);
                 f = bootstrap.connect().addListener((ChannelFuture futureListener) -> {
                     final EventLoop eventLoop = futureListener.channel().eventLoop();
@@ -59,8 +75,6 @@ public class NettyClient {
                     log.info("Netty客户端启动成功!");
                     initFalg=false;
                 }
-                // 阻塞
-                f.channel().closeFuture().sync();
             }
         } catch (Exception e) {
             log.info("客户端连接失败!"+e.getMessage());

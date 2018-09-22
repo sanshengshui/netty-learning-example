@@ -12,7 +12,7 @@ spring:
 server:
   enabled: true
   bind_address: 0.0.0.0
-  bind_port: 9786
+  bind_port: 9876
   netty:
     leak_detector_level: DISABLED
     boss_group_thread_count: 1

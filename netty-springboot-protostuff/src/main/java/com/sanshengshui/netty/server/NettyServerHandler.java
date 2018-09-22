@@ -7,9 +7,7 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.ReferenceCountUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
-@Service("nettyServerHandler")
 @Slf4j
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     /** 空闲次数 */

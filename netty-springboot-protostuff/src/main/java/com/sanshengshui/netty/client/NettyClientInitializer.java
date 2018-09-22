@@ -9,15 +9,10 @@ import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.timeout.IdleStateHandler;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
-@Component
 public class NettyClientInitializer extends ChannelInitializer<SocketChannel> {
-    @Autowired
-    private NettyClientHandler nettyClientHandler;
 
 
     @Override
@@ -36,7 +31,7 @@ public class NettyClientInitializer extends ChannelInitializer<SocketChannel> {
         ph.addLast(new ProtobufEncoder());
 
         //业务逻辑实现类
-        ph.addLast("nettyClientHandler",nettyClientHandler);
+        ph.addLast("nettyClientHandler",new NettyClientHandler());
 
     }
 
