@@ -18,6 +18,8 @@
     <modules>
         <!-- netty实现mqtt服务器 -->
         <module>mqtt</module>
+        <!-- netty实现coap服务器 -->
+        <module>coap</module>
     </modules>
 
 
