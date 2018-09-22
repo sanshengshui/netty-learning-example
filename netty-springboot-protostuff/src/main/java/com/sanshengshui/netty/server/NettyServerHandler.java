@@ -6,9 +6,11 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.ReferenceCountUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service("nettyServerHandler")
+@Slf4j
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     /** 空闲次数 */
     private int idle_count = 1;
@@ -21,7 +23,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("连接的客户端地址:" + ctx.channel().remoteAddress());
+        log.info("连接的客户端地址:" + ctx.channel().remoteAddress());
         UserMsg.User user = UserMsg.User.newBuilder().setId(1).setAge(24).setName("穆书伟").setState(0).build();
         ctx.writeAndFlush(user);
         super.channelActive(ctx);
@@ -36,9 +38,9 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
             IdleStateEvent event = (IdleStateEvent) obj;
             // 如果读通道处于空闲状态，说明没有接收到心跳命令
             if (IdleState.READER_IDLE.equals(event.state())) {
-                System.out.println("已经5秒没有接收到客户端的信息了");
+                log.info("已经5秒没有接收到客户端的信息了");
                 if (idle_count > 1) {
-                    System.out.println("关闭这个不活跃的channel");
+                    log.info("关闭这个不活跃的channel");
                     ctx.channel().close();
                 }
                 idle_count++;
@@ -53,20 +55,20 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println("第" + count + "次" + ",服务端接受的消息:" + msg);
+        log.info("第" + count + "次" + ",服务端接受的消息:" + msg);
         try {
             // 如果是protobuf类型的数据
             if (msg instanceof UserMsg.User) {
                 UserMsg.User user = (UserMsg.User) msg;
                 if (user.getState() == 1) {
-                    System.out.println("客户端业务处理成功!");
+                    log.info("客户端业务处理成功!");
                 } else if(user.getState() == 2){
-                    System.out.println("接受到客户端发送的心跳!");
+                    log.info("接受到客户端发送的心跳!");
                 }else{
-                    System.out.println("未知命令!");
+                    log.info("未知命令!");
                 }
             } else {
-                System.out.println("未知数据!" + msg);
+                log.info("未知数据!" + msg);
                 return;
             }
         } catch (Exception e) {

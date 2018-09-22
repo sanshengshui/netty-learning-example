@@ -4,6 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <name>netty :: Examples</name>
+    <url>https://github.com/sanshengshui</url>
+    <inceptionYear>2018</inceptionYear>
+
 
     <groupId>com.sanshengshui</groupId>
     <artifactId>let_netty_easy</artifactId>

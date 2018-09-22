@@ -7,12 +7,14 @@ import io.netty.channel.EventLoop;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
 @Service("nettyClient")
+@Slf4j
 public class NettyClient {
     // ip地址
     private String host = "127.0.0.1";
@@ -49,19 +51,19 @@ public class NettyClient {
                 f = bootstrap.connect().addListener((ChannelFuture futureListener) -> {
                     final EventLoop eventLoop = futureListener.channel().eventLoop();
                     if (!futureListener.isSuccess()) {
-                        System.out.println("与服务端断开连接!在10s之后准备尝试重连!");
+                        log.info("与服务端断开连接!在10s之后准备尝试重连!");
                         eventLoop.schedule(() -> doConnect(new Bootstrap(), eventLoop), 10, TimeUnit.SECONDS);
                     }
                 });
                 if(initFalg){
-                    System.out.println("Netty客户端启动成功!");
+                    log.info("Netty客户端启动成功!");
                     initFalg=false;
                 }
                 // 阻塞
                 f.channel().closeFuture().sync();
             }
         } catch (Exception e) {
-            System.out.println("客户端连接失败!"+e.getMessage());
+            log.info("客户端连接失败!"+e.getMessage());
         }
 
     }
