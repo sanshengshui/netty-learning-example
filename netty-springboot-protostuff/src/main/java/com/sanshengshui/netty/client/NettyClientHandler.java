@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 @ChannelHandler.Sharable
@@ -22,7 +23,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     private NettyClient nettyClient;
 
     /** 循环次数 */
-    private int fcount = 1;
+    private AtomicInteger fcount = new AtomicInteger(1);
 
     /**
      * 建立连接时
@@ -50,14 +51,14 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object obj) throws Exception {
-        log.info("循环请求的时间：" + new Date() + "，次数" + fcount);
+        log.info("循环请求的时间：" + new Date() + "，次数" + fcount.get());
         if (obj instanceof IdleStateEvent) {
             IdleStateEvent event = (IdleStateEvent) obj;
             // 如果写通道处于空闲状态,就发送心跳命令
             if (IdleState.WRITER_IDLE.equals(event.state())) {
                 UserMsg.User.Builder userState = UserMsg.User.newBuilder().setState(2);
                 ctx.channel().writeAndFlush(userState);
-                fcount++;
+                fcount.getAndIncrement();
             }
         }
     }

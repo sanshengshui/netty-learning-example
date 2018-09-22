@@ -8,12 +8,14 @@ import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.ReferenceCountUtil;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 @Slf4j
 public class NettyServerHandler extends ChannelInboundHandlerAdapter {
     /** 空闲次数 */
-    private int idle_count = 1;
+    private AtomicInteger idle_count = new AtomicInteger(1);
     /** 发送次数 */
-    private int count = 1;
+    private AtomicInteger count = new AtomicInteger(1);
 
 
     /**
@@ -37,11 +39,11 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
             // 如果读通道处于空闲状态，说明没有接收到心跳命令
             if (IdleState.READER_IDLE.equals(event.state())) {
                 log.info("已经5秒没有接收到客户端的信息了");
-                if (idle_count > 1) {
+                if (idle_count.get() > 1) {
                     log.info("关闭这个不活跃的channel");
                     ctx.channel().close();
                 }
-                idle_count++;
+                idle_count.getAndIncrement();
             }
         } else {
             super.userEventTriggered(ctx, obj);
@@ -53,7 +55,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        log.info("第" + count + "次" + ",服务端接受的消息:" + msg);
+        log.info("第" + count.get() + "次" + ",服务端接受的消息:" + msg);
         try {
             // 如果是protobuf类型的数据
             if (msg instanceof UserMsg.User) {
@@ -74,7 +76,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         } finally {
             ReferenceCountUtil.release(msg);
         }
-        count++;
+        count.getAndIncrement();
     }
 
     /**
