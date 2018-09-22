@@ -8,3 +8,13 @@ spring:
       force: true
   messages:
     encoding: UTF-8
+
+server:
+  enabled: true
+  bind_address: 0.0.0.0
+  bind_port: 9786
+  netty:
+    leak_detector_level: DISABLED
+    boss_group_thread_count: 1
+    worker_group_thread_count: 12
+    max_payload_size: 65536
