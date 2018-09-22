@@ -21,6 +21,7 @@
         <module>netty-http</module>
         <!-- netty 之 netty整合springboot并使用protostuff进行数据传输-->
         <module>netty-springboot-protobuf</module>
+        <!-- netty 之 netty实现mqtt,coap服务器-->
         <module>netty-mqtt-coap</module>
     </modules>
 
