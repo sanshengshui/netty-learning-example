@@ -13,10 +13,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 @Service("MqttTransportService")
 @Slf4j
 public class MqttTransportService {
+    @Value("{mqtt.bind_address}")
+    private String host;
     @Value("${mqtt.bind_port}")
     private Integer port;
     @Value("${mqtt.adaptor}")
@@ -48,8 +51,20 @@ public class MqttTransportService {
                 .handler(new LoggingHandler(LogLevel.INFO))
                 .childHandler(new MqttTransportServerInitializer());
 
-        serverChannel = b.bind(port).sync().channel();
+        serverChannel = b.bind(host,port).sync().channel();
         log.info("Mqtt transport started!");
+    }
+
+    @PreDestroy
+    public void shutdown() throws InterruptedException {
+        log.info("Stopping MQTT transport!");
+        try {
+            serverChannel.close().sync();
+        } finally {
+            workerGroup.shutdownGracefully();
+            bossGroup.shutdownGracefully();
+        }
+        log.info("MQTT transport stopped!");
     }
 
 }
