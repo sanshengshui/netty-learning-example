@@ -26,3 +26,6 @@ gen
 /netty-mqtt-coap/coap/.mvn/
 /netty-mqtt-coap/coap/mvnw
 /netty-mqtt-coap/coap/mvnw.cmd
+/netty-kafka/mvnw
+/netty-kafka/mvnw.cmd
+/netty-kafka/.mvn/
