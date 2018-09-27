@@ -110,7 +110,7 @@ public class HttpHelloWorldServerHandler extends SimpleChannelInboundHandler<Htt
             String jsonStr = fullRequest.content().toString(Charsets.toCharset(CharEncoding.UTF_8));
             JSONObject obj = JSON.parseObject(jsonStr);
             for(Map.Entry<String, Object> item : obj.entrySet()){
-                System.out.println(item.getKey()+"="+item.getValue().toString());
+                logger.info(item.getKey()+"="+item.getValue().toString());
             }
 
         }else if(contentType.equals("application/x-www-form-urlencoded")){
@@ -120,7 +120,7 @@ public class HttpHelloWorldServerHandler extends SimpleChannelInboundHandler<Htt
 			Map<String, List<String>> uriAttributes = queryDecoder.parameters();
             for (Map.Entry<String, List<String>> attr : uriAttributes.entrySet()) {
                 for (String attrVal : attr.getValue()) {
-                    System.out.println(attr.getKey() + "=" + attrVal);
+                    logger.info(attr.getKey() + "=" + attrVal);
                 }
             }
 
