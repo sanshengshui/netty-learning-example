@@ -1,4 +1,10 @@
-#kafka相关配置
 spring:
   kafka:
-    bootstrap-servers: 192.168.1.180:9092
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: spring-kafka-protobuf-demo-test
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: com.sanshengshui.kafka.kafka.CallbackDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: com.sanshengshui.kafka.kafka.CallbackSerializer

@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.thinkerou.proto.helloworld";
+option java_outer_classname = "HelloWorldProto";
+
+package helloworld;
+
+service Greeter {
+    rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+
+message HelloRequest {
+    string name = 1;
+}
+
+message HelloReply {
+    string message = 1;
+}
+
+message KafkaEventOne {
+    string address = 1;
+}
+
+message KafkaEventTwo {
+    uint64 number = 1;
+}
+
+message Callback {
+    oneof event_type {
+        KafkaEventOne one_event = 1;
+        KafkaEventTwo two_event = 2;
+    }
+}
