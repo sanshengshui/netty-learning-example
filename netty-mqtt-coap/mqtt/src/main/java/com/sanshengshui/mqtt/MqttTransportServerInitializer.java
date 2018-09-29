@@ -24,7 +24,7 @@ public class MqttTransportServerInitializer extends ChannelInitializer<SocketCha
         log.info("mqtt server initial!");
         pipeline.addLast("decoder", new MqttDecoder(maxPayloadSize));
         pipeline.addLast("encoder", MqttEncoder.INSTANCE);
-        pipeline.addLast("idleStateHandler", new IdleStateHandler(10,2,12, TimeUnit.SECONDS));
+//        pipeline.addLast("idleStateHandler", new IdleStateHandler(10,2,12, TimeUnit.SECONDS));
         MqttTransportHandler handler = new MqttTransportHandler(20);
         pipeline.addLast(handler);
         socketChannel.closeFuture().addListener(handler);

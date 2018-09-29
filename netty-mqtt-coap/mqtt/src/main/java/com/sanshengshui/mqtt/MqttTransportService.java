@@ -49,9 +49,9 @@ public class MqttTransportService {
         b.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .handler(new LoggingHandler(LogLevel.INFO))
-                .childHandler(new MqttTransportServerInitializer());
+                .childHandler(new MqttTransportServerInitializer(maxPayloadSize));
 
-        serverChannel = b.bind(host,port).sync().channel();
+        serverChannel = b.bind(port).sync().channel();
         log.info("Mqtt transport started!");
     }
 

@@ -131,7 +131,9 @@ public class MqttTransportHandler extends ChannelInboundHandlerAdapter implement
         if(StringUtils.isEmpty(topicName)) {
             return;
         }else if("/device/status".equals(topicName)) {
+            log.info("deviceId is: " + deviceId +"payload is: "+payload);
         }else if("/device/paramValue".equals(topicName)) {
+            log.info("deviceId is: " + deviceId +"payload is: "+payload);
         }else {
             //do nothing
         }
