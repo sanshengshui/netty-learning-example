@@ -9,6 +9,10 @@ netty实践学习案例,是netty初学者及核心技术巩固的最佳实践
 - netty-http<br>
   [《netty 之 高性能http服务器 详解》](https://github.com/sanshengshui/netty-learning-example/tree/master/netty-http)<br>
 
+- netty-kafka
+
+  [《netty之 netty 整合 Kafka producer》](https://github.com/sanshengshui/netty-learning-example/tree/master/netty-kafka)<br>
+
   ------
 
 - netty-springboot-protobuf<br>
