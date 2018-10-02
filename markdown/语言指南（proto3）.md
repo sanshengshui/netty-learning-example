@@ -14,30 +14,30 @@
 
 ## 定义消息类型
 
-首先让我们看一个非常简单的例子。假设您要定义搜索请求消息格式，其中每个搜索请求都有一个查询字符串，您感兴趣的特定结果页面以及每页的多个结果。这是`.proto`用于定义消息类型的文件。
+先来看一个非常简单的例子。假设你想定义一个“搜索请求”的消息格式，每一个请求含有一个查询字符串、你感兴趣的查询结果所在的页数，以及每一页多少条查询结果。可以采用如下的方式来定义消息类型的.proto文件了：
 
 ```
-syntax =“proto3”;
+syntax = "proto3";
 
-消息SearchRequest {
+message SearchRequest {
   string query = 1;
   int32 page_number = 2;
   int32 result_per_page = 3;
 }
 ```
 
-- 该文件的第一行指定您正在使用`proto3`语法：如果您不这样做，协议缓冲区编译器将假定您正在使用[proto2](https://developers.google.com/protocol-buffers/docs/proto)。这必须是文件的第一个非空的非注释行。
+- 该文件的第一行指定您正在使用`proto3`语法：如果您不这样做，protobuf 编译器将假定您正在使用[proto2](https://developers.google.com/protocol-buffers/docs/proto)。这必须是文件的第一个非空的非注释行。
 - 所述`SearchRequest`消息定义指定了三个字段（名称/值对），一个用于要在此类型的消息中包含的每个数据片段。每个字段都有一个名称和类型。
 
 ### 指定字段类型
 
-在上面的示例中，所有字段都是[标量类型](https://developers.google.com/protocol-buffers/docs/proto3#scalar)：两个整数（`page_number`和`result_per_page`）和一个字符串（`query`）。但是，您还可以为字段指定复合类型，包括[枚举](https://developers.google.com/protocol-buffers/docs/proto3#enum)和其他消息类型。
+在上面的示例中，所有字段都是[标量类型](https://developers.google.com/protocol-buffers/docs/proto3#scalar)：两个整数（`page_number`和`result_per_page`）和一个字符串（`query`）。但是，您还可以为字段指定合成类型，包括[枚举](https://developers.google.com/protocol-buffers/docs/proto3#enum)和其他消息类型。
 
-### 分配字段编号
+### 分配标识号
 
-如您所见，消息定义中的每个字段都有**唯一的编号**。这些字段编号用于以[消息二进制格式](https://developers.google.com/protocol-buffers/docs/encoding)标识字段，并且在使用消息类型后不应更改。请注意，1到15范围内的字段编号需要一个字节进行编码，包括字段编号和字段类型（您可以在[协议缓冲区编码中](https://developers.google.com/protocol-buffers/docs/encoding.html#structure)找到更多相关信息）。16到2047范围内的字段编号占用两个字节。因此，您应该为非常频繁出现的消息元素保留数字1到15。请记住为将来可能添加的常用元素留出一些空间。
+正如上述文件格式，在消息定义中，每个字段都有唯一的一个**数字标识符**。这些标识符是用来在消息的[二进制格式](https://developers.google.com/protocol-buffers/docs/encoding)中识别各个字段的，一旦开始使用就不能够再改变。注：[1,15]之内的标识号在编码的时候会占用一个字节。[16,2047]之内的标识号则占用2个字节。所以应该为那些频繁出现的消息元素保留 [1,15]之内的标识号。切记：要为将来有可能添加的、频繁出现的标识号预留一些标识号。
 
-您可以指定的最小字段数为1，最大字段数为2 29 - 1或536,870,911。您也不能使用数字19000到19999（`FieldDescriptor::kFirstReservedNumber`直通`FieldDescriptor::kLastReservedNumber`），因为它们是为协议缓冲区实现保留的 - 如果您使用其中一个保留号码，协议缓冲编译器会抱怨`.proto`。同样，您不能使用任何以前[保留的](https://developers.google.com/protocol-buffers/docs/proto3#reserved)字段编号。
+最小的标识号可以从1开始，最大到2^29 - 1, or 536,870,911。不可以使用其中的[19000－19999]的标识号， Protobuf协议实现中对这些进行了预留。如果非要在.proto文件中使用这些预留标识号，编译时就会报警。
 
 ### 指定字段规则
 
@@ -46,27 +46,27 @@ syntax =“proto3”;
 - 单数：格式良好的消息可以包含该字段中的零个或一个（但不超过一个）。
 - `repeated`：此字段可以在格式良好的消息中重复任意次数（包括零）。将保留重复值的顺序。
 
-在proto3中，`repeated`标量数字类型的字段`packed`默认使用编码。
+在proto3中，`repeated`数字类型的字段默认使用`packed`编码。
 
-您可以`packed`在[协议缓冲区编码中](https://developers.google.com/protocol-buffers/docs/encoding.html#packed)找到有关编码的更多信息。
+`packed`您可以在[协议缓冲区编码中](https://developers.google.com/protocol-buffers/docs/encoding.html#packed)找到有关编码的更多信息。
 
 ### 添加更多消息类型
 
 可以在单个`.proto`文件中定义多种消息类型。如果要定义多个相关消息，这很有用 - 例如，如果要定义与`SearchResponse`消息类型对应的回复消息格式，可以将其添加到相同的消息`.proto`：
 
 ```
-消息SearchRequest {
+message SearchRequest {
   string query = 1;
   int32 page_number = 2;
   int32 result_per_page = 3;
 }
 
-消息SearchResponse {
+message SearchResponse {
  ...
 }
 ```
 
-### 添加评论
+### 添加注释
 
 要为`.proto`文件添加注释，请使用C / C ++ - 样式`//`和`/* ... */`语法。
 
@@ -74,7 +74,7 @@ syntax =“proto3”;
 / * SearchRequest表示搜索查询，带有分页选项
  *表明响应中包含哪些结果。* /
 
-消息SearchRequest {
+message SearchRequest {
   string query = 1;
   int32 page_number = 2; //我们想要哪个页码？
   int32 result_per_page = 3; //每页返回的结果数。
@@ -86,9 +86,9 @@ syntax =“proto3”;
 如果通过完全删除字段或将其注释来[更新](https://developers.google.com/protocol-buffers/docs/proto3#updating)消息类型，则未来用户可以在对类型进行自己的更新时重用字段编号。如果以后加载相同的旧版本，这可能会导致严重问题`.proto`，包括数据损坏，隐私错误等。确保不会发生这种情况的一种方法是指定已删除字段的字段编号（和/或名称，这也可能导致JSON序列化问题）`reserved`。如果将来的任何用户尝试使用这些字段标识符，协议缓冲编译器将会抱怨。
 
 ```
-消息Foo {
-  保留2,15,9至11;
-  保留“foo”，“bar”;
+message Foo {
+  reserved 2, 15, 9 to 11;
+  reserved "foo", "bar";
 }
 ```
 
@@ -112,23 +112,23 @@ syntax =“proto3”;
 
 标量消息字段可以具有以下类型之一 - 该表显示`.proto`文件中指定的类型，以及自动生成的类中的相应类型：
 
-| .proto类型 | 笔记                                                         | C ++类型 | Java类型 | Python类型[2]    | 去类型  | Ruby类型                   | C＃类型 | PHP类型        |
-| ---------- | ------------------------------------------------------------ | -------- | -------- | ---------------- | ------- | -------------------------- | ------- | -------------- |
-| double     |                                                              | 双       | 双       | 浮动             | float64 | 浮动                       | 双      | 浮动           |
-| float      |                                                              | 浮动     | 浮动     | 浮动             | FLOAT32 | 浮动                       | 浮动    | 浮动           |
-| int32      | 使用可变长度编码。编码负数的效率低 - 如果您的字段可能有负值，请改用sint32。 | INT32    | INT      | INT              | INT32   | Fixnum或Bignum（根据需要） | INT     | 整数           |
-| Int64      | 使用可变长度编码。编码负数的效率低 - 如果您的字段可能有负值，请改用sint64。 | Int64的  | 长       | int / long [3]   | Int64的 | BIGNUM                     | 长      | 整数/字符串[5] |
-| uint32     | 使用可变长度编码。                                           | UINT32   | int [1]  | int / long [3]   | UINT32  | Fixnum或Bignum（根据需要） | UINT    | 整数           |
-| uint64     | 使用可变长度编码。                                           | UINT64   | 长[1]    | int / long [3]   | UINT64  | BIGNUM                     | ULONG   | 整数/字符串[5] |
-| sint32     | 使用可变长度编码。签名的int值。这些比常规int32更有效地编码负数。 | INT32    | INT      | INT              | INT32   | Fixnum或Bignum（根据需要） | INT     | 整数           |
-| sint64     | 使用可变长度编码。签名的int值。这些比常规int64更有效地编码负数。 | Int64的  | 长       | int / long [3]   | Int64的 | BIGNUM                     | 长      | 整数/字符串[5] |
-| fixed32    | 总是四个字节。如果值通常大于2 28，则比uint32更有效。         | UINT32   | int [1]  | int / long [3]   | UINT32  | Fixnum或Bignum（根据需要） | UINT    | 整数           |
-| fixed64    | 总是八个字节。如果值通常大于2 56，则比uint64更有效。         | UINT64   | 长[1]    | int / long [3]   | UINT64  | BIGNUM                     | ULONG   | 整数/字符串[5] |
-| sfixed32   | 总是四个字节。                                               | INT32    | INT      | INT              | INT32   | Fixnum或Bignum（根据需要） | INT     | 整数           |
-| sfixed64   | 总是八个字节。                                               | Int64的  | 长       | int / long [3]   | Int64的 | BIGNUM                     | 长      | 整数/字符串[5] |
-| bool       |                                                              | 布尔     | 布尔     | 布尔             | 布尔    | TrueClass / FalseClass     | 布尔    | 布尔           |
-| string     | 字符串必须始终包含UTF-8编码或7位ASCII文本。                  | 串       | 串       | str / unicode[4] | 串      | 字符串（UTF-8）            | 串      | 串             |
-| bytes      | 可以包含任意字节序列。                                       | string   | 字节串   | 海峡             | []字节  | 字符串（ASCII-8BIT）       | 字节串  | 串             |
+| .proto type | notes                                                        | C ++ type | Java type   | Python type [2]  | Type    | Ruby type                    | C# type     | PHP type          |
+| ----------- | ------------------------------------------------------------ | --------- | ----------- | ---------------- | ------- | ---------------------------- | ----------- | ----------------- |
+| double      |                                                              | double    | double      | float            | float64 | float                        | double      | float             |
+| float       |                                                              | float     | float       | float            | FLOAT32 | float                        | float       | float             |
+| INT32       | 使用可变长度编码。编码负数的效率低 - 如果您的字段可能有负值，请改用sint32。 | INT32     | INT         | INT              | INT32   | Fixnum or Bignum (as needed) | INT         | Integer           |
+| Int64       | 使用可变长度编码。编码负数的效率低 - 如果您的字段可能有负值，请改用sint64。 | Int64     | long        | int / long [3]   | Int64   | TWINS                        | long        | Integer/string[5] |
+| UINT32      | 使用可变长度编码。                                           | UINT32    | int [1]     | int / long [3]   | UINT32  | Fixnum or Bignum (as needed) | UINT        | Integer           |
+| UINT64      | 使用可变长度编码。                                           | UINT64    | Long [1]    | int / long [3]   | UINT64  | TWINS                        | ULONG       | Integer/string[5] |
+| SINT32      | 使用可变长度编码。签名的int值。这些比常规int32更有效地编码负数。 | INT32     | INT         | INT              | INT32   | Fixnum or Bignum (as needed) | INT         | Integer           |
+| sint64      | 使用可变长度编码。签名的int值。这些比常规int64更有效地编码负数。 | Int64     | long        | int / long [3]   | Int64   | TWINS                        | long        | Integer/string[5] |
+| fixed32     | 总是四个字节。如果值通常大于2 28，则比uint32更有效。         | UINT32    | int [1]     | int / long [3]   | UINT32  | Fixnum or Bignum (as needed) | UINT        | Integer           |
+| fixed64     | 总是八个字节。如果值通常大于2 56，则比uint64更有效。         | UINT64    | Long [1]    | int / long [3]   | UINT64  | TWINS                        | ULONG       | Integer/string[5] |
+| sfixed32    | 总是四个字节。                                               | INT32     | INT         | INT              | INT32   | Fixnum or Bignum (as needed) | INT         | Integer           |
+| sfixed64    | 总是八个字节。                                               | Int64     | long        | int / long [3]   | Int64   | TWINS                        | long        | Integer/string[5] |
+| Boolean     |                                                              | Boolean   | Boolean     | Boolean          | Boolean | TrueClass / FalseClass       | Boolean     | Boolean           |
+| string      | 字符串必须始终包含UTF-8编码或7位ASCII文本。                  | string    | string      | str / unicode[4] | string  | String (UTF-8)               | string      | string            |
+| byte        | 可以包含任意字节序列。                                       | string    | Byte string | Strait           | []byte  | String (ASCII-8BIT)          | Byte string | string            |
 
 在[协议缓冲区编码中](https://developers.google.com/protocol-buffers/docs/encoding)序列化消息时，您可以找到有关如何编码这些类型的更多信息。
 
