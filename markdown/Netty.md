@@ -17,7 +17,7 @@
 
 打开 IDEA 的 **Maven Projects** ，选择对应的 Profiles 。如下图所示：
 
-![Profile设置](/home/james/图片/Profiles.png)
+![Profile设置](https://github.com/sanshengshui/netty-learning-example/blob/master/pic/netty-helloworld/Profiles.png)
 
 - `jdk8` ：笔者使用的 JDK 版本是 8 ，所以勾选了 `jdk8` 。如果错误的选择，可能会报如下错误：
 
@@ -40,7 +40,7 @@ import io.netty.util.collection.LongObjectMap;
 
 - 具体如下图所示:
 
-  ![Netty redis错误](/home/james/图片/redisError.png)
+  ![Netty redis错误](https://github.com/sanshengshui/netty-learning-example/blob/master/pic/netty-helloworld/redisError.png)
 
 解决方式如下：
 
@@ -406,7 +406,7 @@ Process finished with exit code 0
 
 telnet客户端 和服务端交互结果如下:
 
-![选区_001](/home/james/图片/选区_001.png)
+![选区_001](https://github.com/sanshengshui/netty-learning-example/blob/master/pic/netty-helloworld/%E9%80%89%E5%8C%BA_001.png)
 
 通过打印信息可以看出如上述所说。
 
