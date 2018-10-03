@@ -37,13 +37,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <!--netty jar包导入-->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>${netty-all.version}</version>
         </dependency>
 
+        <!--使用grpc优雅的编译protobuf-->
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
@@ -66,6 +67,7 @@
             <version>${grpc.version}</version>
         </dependency>
 
+        <!--lombok用于日志,实体类的重复代码书写-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -73,6 +75,7 @@
         </dependency>
     </dependencies>
 
+    <!--grpc编译protobuf插件-->
     <build>
         <extensions>
             <extension>

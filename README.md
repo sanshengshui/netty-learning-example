@@ -27,7 +27,7 @@ netty实践学习案例,是netty初学者及核心技术巩固的最佳实践
   ------
 
 - netty-springboot-protobuf<br>
-  [《netty 之 netty整合springboot并使用protobuf进行传输》](https://github.com/sanshengshui/netty-learning-example/tree/master/netty-springboot-protobuf)<br>
+  [《netty 之 netty整合springboot并使用protobuf进行传输》](https://www.cnblogs.com/sanshengshui/p/9740787.html)<br>
 
 
 ## d. 『 高级 - 高级应用篇 』
