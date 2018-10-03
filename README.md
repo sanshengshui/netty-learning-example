@@ -36,4 +36,4 @@ netty实践学习案例,是netty初学者及核心技术巩固的最佳实践
 
 ## f. 『 号外 - 相关知识归纳篇 』
 - 语言指南(proto3)<br>
-[《通讯协议之proto3(语言指南)》](https://github.com/sanshengshui/netty-learning-example/blob/master/markdown/%E8%AF%AD%E8%A8%80%E6%8C%87%E5%8D%97%EF%BC%88proto3%EF%BC%89.md)<br>
+[《Protobuf 语言指南(proto3)》](https://www.cnblogs.com/sanshengshui/p/9739521.html)<br>
