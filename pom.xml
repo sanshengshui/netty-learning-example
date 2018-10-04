@@ -27,6 +27,8 @@
         <module>netty-kafka</module>
         <!--netty之 基于netty通讯实现rpc-->
         <module>netty-rpc</module>
+        <!--netty之用netty实现IM功能(物联网,推送皆可！)-->
+        <module>netty-im</module>
     </modules>
 
 
