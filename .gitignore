@@ -4,6 +4,9 @@
 
 # IntelliJ project files
 .idea
+.mvn
+mvnw
+mvnw.cmd
 *.iml
 out
 gen
@@ -29,3 +32,5 @@ gen
 /netty-kafka/mvnw
 /netty-kafka/mvnw.cmd
 /netty-kafka/.mvn/
+
+

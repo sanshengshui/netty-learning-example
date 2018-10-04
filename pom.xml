@@ -25,6 +25,8 @@
         <module>netty-mqtt-coap</module>
         <!--netty之 netty 整合 Kafka producer-->
         <module>netty-kafka</module>
+        <!--netty之 基于netty通讯实现rpc-->
+        <module>netty-rpc</module>
     </modules>
 
 
