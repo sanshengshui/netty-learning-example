@@ -167,7 +167,127 @@ Windows用户：我们建议您不要将Gatling放在“ Programs”文件夹中
 
 Gatling提供了一个名为gatling-maven-plugin的官方maven 插件。这个插件允许您编译Scala代码并启动Gatling模拟。
 
-有关更多信息，请查看[maven插件文档](https://gatling.io/docs/current/extensions/maven_plugin#maven-plugin)。
+有了这个插件，Gatling可以在构建项目时启动，例如使用您最喜欢的CI解决方案。
+
+##### Versions
+
+查看[Maven Central](https://search.maven.org/search?q=g:io.gatling%20AND%20a:gatling-maven-plugin&core=gav)上的可用版本。
+
+请注意，OSS用户未记录里程碑（M版本），仅针对专业版客户发布。
+
+##### Setup
+
+在你的`pom.xml`，添加：
+
+```
+<dependencies>
+  <dependency>
+    <groupId>io.gatling.highcharts</groupId>
+    <artifactId>gatling-charts-highcharts</artifactId>
+    <version>MANUALLY_REPLACE_WITH_LATEST_VERSION</version>
+    <scope>test</scope>
+  </dependency>
+</dependencies>
+
+<plugin>
+  <groupId>io.gatling</groupId>
+  <artifactId>gatling-maven-plugin</artifactId>
+  <version>MANUALLY_REPLACE_WITH_LATEST_VERSION</version>
+</plugin>
+```
+
+##### 演示样本
+
+您可以在Gatling的Github组织中找到[gatling-sbt-plugin-demo](https://github.com/gatling/gatling-sbt-plugin-demo)的[示例项目](https://github.com/gatling/gatling-sbt-plugin-demo)。
+
+您还可以使用[gatling-highcharts-maven-archetype](https://gatling.io/docs/current/extensions/maven_archetype#maven-archetype)来引导项目。
+
+##### Usage
+
+您可以直接启动gatling-maven-plugin，其`test`目标是：
+
+```
+mvn gatling:test
+```
+
+它默认绑定到`integration-test`阶段。
+
+
+
+##### Configuration
+
+下面的例子显示了默认值（所以不要指定你没有覆盖的选项!!!）：
+
+```
+<configuration>
+  <simulationClass>foo.Bar</simulationClass>                               <!-- the name of the single Simulation class to run -->
+  <runMultipleSimulations>false</runMultipleSimulations>                   <!-- if the plugin should run multiple simulations sequentially -->
+  <includes>                                                               <!-- include filters, see dedicated section below -->
+    <include></include>
+  </includes>
+  <excludes>                                                               <!-- exclude filters, see dedicated section below -->
+    <exclude></exclude>
+  </excludes>
+  <noReports>false</noReports>                                             <!-- to disable generating HTML reports -->
+  <reportsOnly></reportsOnly>                                              <!-- to only trigger generating HTML reports from the log file contained in folder parameter -->
+  <runDescription>This-is-the-run-description</runDescription>             <!-- short text that will be displayed in the HTML reports -->
+  <skip>false</skip>                                                       <!-- skip executing this plugin -->
+  <failOnError>true</failOnError>                                          <!-- report failure in case of assertion failure, typically to fail CI pipeline -->
+  <continueOnAssertionFailure>false</continueOnAssertionFailure>           <!-- keep on executing multiple simulations even if one fails -->
+  <useOldJenkinsJUnitSupport>false</useOldJenkinsJUnitSupport>             <!-- report results to Jenkins JUnit support (workaround until we manage to get Gatling support into Jenkins) -->
+  <jvmArgs>
+    <jvmArg>-DmyExtraParam=foo</jvmArg>                                    <!-- pass extra parameters to the Gatling JVM -->
+  </jvmArgs>
+  <overrideJvmArgs>false</overrideJvmArgs>                                 <!-- if above option should override the defaults instead of replacing them -->
+  <propagateSystemProperties>true</propagateSystemProperties>              <!-- if System properties from the maven JVM should be propagated to the Gatling forked one -->
+  <compilerJvmArgs>
+    <compilerJvmArg>-DmyExtraParam=foo</compilerJvmArg>                    <!-- pass extra parameters to the Compiler JVM -->
+  </compilerJvmArgs>
+  <overrideCompilerJvmArgs>false</overrideCompilerJvmArgs>                 <!-- if above option should override the defaults instead of replacing them -->
+  <extraScalacOptions>                                                     <!-- extra options to be passed to scalac -->
+    <extraScalacOption></extraScalacOption>
+  </extraScalacOptions>
+  <disableCompiler>false</disableCompiler>                                 <!-- if compiler should be disabled, typically because another plugin has already compiled sources -->
+  <simulationsFolder>${project.basedir}/src/test/scala</simulationsFolder> <!-- where the simulations to be compiled are located -->
+  <resourcesFolder>${project.basedir}/src/test/resources</resourcesFolder> <!-- where the test resources are located -->
+  <resultsFolder>${project.basedir}/target/gatling</resultsFolder>         <!-- where the simulation log and the HTML reports will be generated -->
+</configuration>
+```
+
+##### 包含/排除过滤器
+
+运行多个模拟时，您可以使用`includes`和`excludes`过滤器控制哪些模拟将被触发。那些使用ant模式语法并与类名匹配。另请注意，这些过滤器仅适用于从设置插件的项目中的源编译的类。
+
+```
+<configuration>
+  <!--   ...  -->
+  <runMultipleSimulations>true</runMultipleSimulations>
+  <includes>
+    <include>my.package.*</include>
+  </includes>
+  <excludes>
+    <exclude>my.package.IgnoredSimulation</exclude>
+  </excludes>
+</configuration>
+```
+
+**注意:过滤器的顺序对执行顺序没有影响，模拟将按字母顺序按类名排序。**
+
+##### 禁用编译器
+
+默认情况下，gatling-maven-plugin负责编译Scala代码，因此您可以直接运行。`mvn gatling:execute`
+
+然后，由于某种原因，你可能想要另一个插件，如[scala-maven-plugin](https://github.com/davidB/scala-maven-plugin) 或[scalor-maven-plugin](https://github.com/random-maven/scalor-maven-plugin)，负责编译。然后，您可以禁用Gatling编译器，这样就不会编译两次：
+
+```
+<configuration>
+  <disableCompiler>true</disableCompiler>
+</configuration>
+```
+
+##### 覆盖logback.xml文件
+
+您可以`logback-test.xml`拥有优先于嵌入`logback.xml`文件的优先级，也可以添加JVM选项`-Dlogback.configurationFile=myFilePath`。
 
 
 
