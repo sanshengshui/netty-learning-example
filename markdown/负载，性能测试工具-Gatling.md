@@ -169,35 +169,23 @@ Gatling提供了一个名为gatling-maven-plugin的官方maven 插件。这个�
 
 有关更多信息，请查看[maven插件文档](https://gatling.io/docs/current/extensions/maven_plugin#maven-plugin)。
 
-## Sbt
-
-Gatling提供了一个名为gatling-sbt的官方sbt插件。此插件可让您启动Gatling模拟。
-
-有关更多信息，请查看[sbt插件文档](https://gatling.io/docs/current/extensions/sbt_plugin#sbt-plugin)。
-
-## Gradle
-
-加特林没有提供正式的gradle插件。不过，你可以找到几个社区的。
-
-检查[第三方列表](https://gatling.io/docs/current/extensions/index#third-parties)以获取更多指向这些外部项目的链接。
 
 
+### 使用IDE
 
-## 使用
-
-您可以使用任何文本编辑器编辑Simulation类，也可以使用Scala的一些语法着色。但如果您是开发人员，您很可能希望将自己喜欢的IDE与Gatling一起使用。
+您可以使用任何Scala语法高亮的文本编辑器编辑Simulation类。但如果您是开发人员，您很可能希望将自己喜欢的IDE与Gatling一起使用。
 
 Gatling正式支持IntelliJ IDEA和eclipse。
 
 
 
-### IntelliJ IDEA的
+#### IntelliJ IDEA
 
 您需要安装社区版中提供的Scala插件。然后，您就可以使用Scala源直接导入常规maven或sbt项目。
 
 
 
-### Eclipse
+#### Eclipse
 
 您必须安装[ScalaIDE](http://scala-ide.org/index.html)，最好是最新版本，甚至是里程碑。
 
@@ -210,11 +198,11 @@ Gatling正式支持IntelliJ IDEA和eclipse。
 /Library/Java/JavaVirtualMachines/jdk1.8.0_162.jdk/Contents/Home/bin/java
 ```
 
-#### 随着SBT 
+##### SBT 
 
 如果你正在使用sbt，你可以使用[sbteclipse](https://github.com/sbt/sbteclipse)来生成eclipse项目配置。
 
-#### 用
+##### Maven
 
 如果您正在使用maven，则可以将[scala-maven-plugin](https://github.com/davidB/scala-maven-plugin)与[m2eclipse-scala](https://github.com/sonatype/m2eclipse-scala)结合使用。前者将编译Scala代码，后者将执行ScalaIDE和m2e（maven的eclipse插件）之间的集成。
 
@@ -302,6 +290,6 @@ Gatling正式支持IntelliJ IDEA和eclipse。
 
 
 
-### 启动加特林从IDE刻录机
+### 从IDE启动加特林
 
-在[加特林highcharts-Maven的原型](https://gatling.io/docs/current/extensions/maven_archetype#maven-archetype)生成，您可以使用从您的IDE手动启动加特林和记录一些辅助类。可以完美复制[这3类](https://github.com/gatling/gatling-highcharts-maven-archetype/tree/master/src/main/scala)（`Engine`，`Recorder`并`IDEPathHelper`在自己的项目）。
+在[gatling-highcharts-maven-archetype](https://gatling.io/docs/current/extensions/maven_archetype#maven-archetype)生成，您可以使用从您的IDE手动启动加特林和记录一些辅助类。可以完美复制[这3个类](https://github.com/gatling/gatling-highcharts-maven-archetype/tree/master/src/main/scala)（`Engine`，`Recorder`并`IDEPathHelper`在自己的项目）。
