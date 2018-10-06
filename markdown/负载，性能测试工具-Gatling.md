@@ -413,3 +413,68 @@ Gatling正式支持IntelliJ IDEA和eclipse。
 ### 从IDE启动加特林
 
 在[gatling-highcharts-maven-archetype](https://gatling.io/docs/current/extensions/maven_archetype#maven-archetype)生成，您可以使用从您的IDE手动启动加特林和记录一些辅助类。可以完美复制[这3个类](https://github.com/gatling/gatling-highcharts-maven-archetype/tree/master/src/main/scala)（`Engine`，`Recorder`并`IDEPathHelper`在自己的项目）。
+
+
+
+**以上参考官网介绍:**
+
+> https://gatling.io/
+
+
+
+## 初次接触Gatling
+
+### 文件目录介绍
+
+```
+Gatling_Home
+  ├── bin 执行程序
+    ├── gatling.bat -- 启动入口(windows)
+    ├── gatling.sh -- 启动入口(linux)
+    ├── recorder.bat -- UI记录入口(windows)
+    ├── recorder.sh -- UI记录入口(linux)
+  ├── conf 配置信息
+    ├── gatling.conf -- 加特林配置文件
+    ├── gatling-akka.conf -- 加特林akka配置文件
+    ├── logback.xml -- 日志配置文件
+    ├── recorder.conf -- recorder配置文件
+  ├── lib 加特林依赖jar包
+  ├── results 测试报告
+  ├── target 编译类 
+  ├── user-files 用户文件
+  ├── LICENSE 许可证
+```
+
+### How to run it
+
+进入bin目录可以看到下面两个文件（.bat属于windows下面的可执行脚本）
+
+**gatling.sh** 启动入口
+依次输入以下三个参数
+
+- 执行的脚本序号
+- 本次测试Id,用作测试报告命名前缀,不能包含空格，特殊字符，中文等
+- 本次测试描述（非必须），会显示在报告头部
+
+**record.sh** 
+UI操作，它主要用于将浏览器配置代理后记录用户操作然后生成测试脚本，更多的用于用户行为模拟测试。
+
+### 测试运行
+
+首先肯定是要下载它
+
+<http://gatling.io/#/download>
+
+解压并进入到bin目录下运行sh gatling.sh（linux环境下）![2199008197-57298d6dd0e09_articlex](/home/james/图片/2199008197-57298d6dd0e09_articlex.png)
+
+上面列出的就是官方自带的测试脚本样例，我们试着跑下。
+
+输入0.就能看到窗口开始跳动字节了！
+
+![选区_005](/home/james/图片/选区_005.png)
+
+显示上面的信息表示测试程序已经运行完成，最后一行显示的是本次的测试报告，可以打开瞅瞅，风骚的报告自己体会吧，首次介绍就先到这里了。
+
+部分报告截图如下所示：
+
+![选区_006](/home/james/图片/选区_006.png)

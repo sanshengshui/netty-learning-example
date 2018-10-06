@@ -17,8 +17,6 @@
 
 
 
-
-
 ## a.『 基础 - 入门篇 』
 - netty-helloworld<br>
   [《netty 之 telnet HelloWorld 详解》](https://www.cnblogs.com/sanshengshui/p/9726306.html)<br>
@@ -60,4 +58,4 @@
 
 ## f. 『 号外 - 相关知识归纳篇 』
 - 语言指南(proto3)<br>
-[《Protobuf 语言指南(proto3)》](https://www.cnblogs.com/sanshengshui/p/9739521.html)<br>
+  [《Protobuf 语言指南(proto3)》](https://www.cnblogs.com/sanshengshui/p/9739521.html)<br>
