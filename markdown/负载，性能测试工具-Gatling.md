@@ -478,3 +478,19 @@ UI操作，它主要用于将浏览器配置代理后记录用户操作然后生
 部分报告截图如下所示：
 
 ![选区_006](/home/james/图片/选区_006.png)
+
+## 其他
+
+关于Protobuf 语言指南(proto3)详解到这里就结束了。
+
+原创不易，如果感觉不错，希望给个推荐！您的支持是我写作的最大动力！
+
+版权声明: 
+
+作者：穆书伟 
+
+博客园出处：<https://www.cnblogs.com/sanshengshui> 
+
+github出处：<https://github.com/sanshengshui>　　　　 
+
+个人博客出处：<https://sanshengshui.github.io/>
