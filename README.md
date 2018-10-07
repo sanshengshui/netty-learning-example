@@ -59,3 +59,6 @@
 ## f. 『 号外 - 相关知识归纳篇 』
 - 语言指南(proto3)<br>
   [《Protobuf 语言指南(proto3)》](https://www.cnblogs.com/sanshengshui/p/9739521.html)<br>
+- 测试工具篇(Gatling)<br>
+  - [x] [负载,性能测试工具-Gatling](https://www.cnblogs.com/sanshengshui/p/9747069.html)
+
