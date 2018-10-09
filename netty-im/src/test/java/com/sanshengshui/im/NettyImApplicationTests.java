@@ -1,4 +1,4 @@
-package com.sanshengshui.nettyim;
+package com.sanshengshui.im;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
