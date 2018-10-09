@@ -16,7 +16,7 @@
         <netty-all.version>4.1.29.Final</netty-all.version>
         <logback.version>1.1.7</logback.version>
         <commons.codec.version>1.10</commons.codec.version>
-        <fastjson.version>1.1.15</fastjson.version>
+        <fastjson.version>1.2.51</fastjson.version>
     </properties>
 
     <dependencies>
