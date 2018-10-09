@@ -25,6 +25,7 @@
         <hessian.version>4.0.38</hessian.version>
         <protostuff.version>1.6.0</protostuff.version>
         <netty-all.version>4.1.29.Final</netty-all.version>
+        <kryo.version>2.23.0</kryo.version>
     </properties>
 
     <dependencies>
@@ -39,10 +40,16 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- # serialization dependency: begin -->
         <dependency>
             <groupId>com.caucho</groupId>
             <artifactId>hessian</artifactId>
             <version>${hessian.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.esotericsoftware.kryo</groupId>
+            <artifactId>kryo</artifactId>
+            <version>${kryo.version}</version>
         </dependency>
         <dependency>
             <groupId>io.protostuff</groupId>
@@ -54,6 +61,7 @@
             <artifactId>protostuff-runtime</artifactId>
             <version>${protostuff.version}</version>
         </dependency>
+        <!-- # serialization dependency: end -->
 
         <!--netty jar包导入-->
         <dependency>
