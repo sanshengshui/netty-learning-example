@@ -2,10 +2,15 @@ package com.sanshengshui.netty;
 
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.sanshengshui.netty.pojo.User;
+import com.sanshengshui.netty.serialize.impl.JSONSerializer;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
 import io.netty.util.AsciiString;
@@ -30,14 +35,11 @@ public class HttpHelloWorldServerHandler extends SimpleChannelInboundHandler<Htt
 
     private static final Logger logger = LoggerFactory.getLogger(HttpHelloWorldServerHandler.class);
 
-    private static final byte[] CONTENT = { 'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd' };
 
 
     private HttpHeaders headers;
     private HttpRequest request;
     private FullHttpRequest fullRequest;
-    private FullHttpResponse response;
-    private HttpPostRequestDecoder decoder;
 
     private static final String FAVICON_ICO = "/favicon.ico";
     private static final AsciiString CONTENT_TYPE = AsciiString.cached("Content-Type");
@@ -45,13 +47,13 @@ public class HttpHelloWorldServerHandler extends SimpleChannelInboundHandler<Htt
     private static final AsciiString CONNECTION = AsciiString.cached("Connection");
     private static final AsciiString KEEP_ALIVE = AsciiString.cached("keep-alive");
 
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) {
-        ctx.flush();
-    }
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
+        User user = new User();
+        user.setUserName("sanshengshui");
+        user.setDate(new Date());
+
         if (msg instanceof HttpRequest){
             request = (HttpRequest) msg;
             headers = request.headers();
@@ -70,18 +72,26 @@ public class HttpHelloWorldServerHandler extends SimpleChannelInboundHandler<Htt
                         logger.info(attr.getKey() + "=" + attrVal);
                     }
                 }
+                user.setMethod("get");
             }else if (method.equals(HttpMethod.POST)){
                 //POST请求,由于你需要从消息体中获取数据,因此有必要把msg转换成FullHttpRequest
                 fullRequest = (FullHttpRequest)msg;
                 //根据不同的Content_Type处理body数据
                 dealWithContentType();
+                user.setMethod("post");
 
             }
-            boolean keepAlive = HttpUtil.isKeepAlive(request);
-            FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(CONTENT));
+
+            // 1. 创建 ByteBuf 对象
+            ByteBuf byteBuf = ByteBufAllocator.DEFAULT.ioBuffer();
+            JSONSerializer jsonSerializer = new JSONSerializer();
+            byte[] content = jsonSerializer.serialize(user);
+
+            FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(content));
             response.headers().set(CONTENT_TYPE, "text/plain");
             response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
 
+            boolean keepAlive = HttpUtil.isKeepAlive(request);
             if (!keepAlive) {
                 ctx.write(response).addListener(ChannelFutureListener.CLOSE);
             } else {
@@ -97,6 +107,11 @@ public class HttpHelloWorldServerHandler extends SimpleChannelInboundHandler<Htt
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
         ctx.close();
+    }
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) {
+        ctx.flush();
     }
 
     /**

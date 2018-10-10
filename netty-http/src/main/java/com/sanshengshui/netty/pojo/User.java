@@ -1,13 +1,13 @@
 package com.sanshengshui.netty.pojo;
-
-import com.oracle.webservices.internal.api.databinding.DatabindingMode;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class User {
-    private String userId;
+    private String userName;
 
-    private String username;
+    private String method;
 
-    private String password;
+    private Date date;
 }
