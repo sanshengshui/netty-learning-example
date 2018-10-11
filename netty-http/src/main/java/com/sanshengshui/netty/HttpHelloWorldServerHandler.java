@@ -82,8 +82,6 @@ public class HttpHelloWorldServerHandler extends SimpleChannelInboundHandler<Htt
 
             }
 
-            // 1. 创建 ByteBuf 对象
-            ByteBuf byteBuf = ByteBufAllocator.DEFAULT.ioBuffer();
             JSONSerializer jsonSerializer = new JSONSerializer();
             byte[] content = jsonSerializer.serialize(user);
 
