@@ -1,5 +1,6 @@
 package com.sanshengshui.mqtt.protocol;
 
+import com.sanshengshui.mqtt.common.auth.GrozaAuthService;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.*;
 import io.netty.util.CharsetUtil;
@@ -13,6 +14,12 @@ import org.springframework.util.StringUtils;
  */
 public class Connect {
     public static final Logger LOGGER = LoggerFactory.getLogger(Connect.class);
+
+    private GrozaAuthService grozaAuthService;
+
+    public Connect(GrozaAuthService grozaAuthService){
+        this.grozaAuthService = grozaAuthService;
+    }
     //消息解码器出现异常
     public void processConnect(Channel channel, MqttConnectMessage msg){
         if (msg.decoderResult().isFailure()){
@@ -54,7 +61,16 @@ public class Connect {
         String username = msg.payload().userName();
         //这里可以用加密算法对密码进行加密
         String password = msg.payload().passwordInBytes() == null ? null : new String(msg.payload().passwordInBytes(), CharsetUtil.UTF_8);
-
+        if (!grozaAuthService.checkValid(username,password)){
+            MqttConnAckMessage connAckMessage = (MqttConnAckMessage) MqttMessageFactory.newMessage(
+                    new MqttFixedHeader(MqttMessageType.CONNACK,false,MqttQoS.AT_MOST_ONCE,false,0),
+                    new MqttConnAckVariableHeader(MqttConnectReturnCode.CONNECTION_REFUSED_BAD_USER_NAME_OR_PASSWORD,false),
+                    null
+            );
+            channel.writeAndFlush(connAckMessage);
+            channel.close();
+            return;
+        }
 
     }
 }
