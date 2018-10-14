@@ -2,6 +2,7 @@ package com.sanshengshui.mqtt.protocol;
 
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.*;
+import io.netty.util.CharsetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -49,6 +50,10 @@ public class Connect {
             channel.close();
             return;
         }
+        // 用户名和密码验证, 这里要求客户端连接时必须提供用户名和密码, 不管是否设置用户名标志和密码标志为1, 此处没有参考标准协议实现
+        String username = msg.payload().userName();
+        //这里可以用加密算法对密码进行加密
+        String password = msg.payload().passwordInBytes() == null ? null : new String(msg.payload().passwordInBytes(), CharsetUtil.UTF_8);
 
 
     }
