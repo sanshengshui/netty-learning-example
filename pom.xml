@@ -29,6 +29,8 @@
         <module>netty-rpc</module>
         <!--netty之用netty实现IM功能(物联网,推送皆可！)-->
         <module>netty-im</module>
+        <!--netty之netty实现IOT服务器-->
+        <module>netty-iot</module>
     </modules>
 
 
