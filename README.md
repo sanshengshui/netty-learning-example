@@ -44,7 +44,7 @@
 
 - netty-kafka
 
-  [《netty之 netty 整合 Kafka producer》](https://github.com/sanshengshui/netty-learning-example/tree/master/netty-kafka)<br>
+  [《netty 之 netty 整合 Kafka producer》](https://github.com/sanshengshui/netty-learning-example/tree/master/netty-kafka)<br>
 
 
 - netty-springboot-protobuf<br>
