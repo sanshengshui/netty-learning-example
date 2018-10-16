@@ -2,6 +2,8 @@ package com.sanshengshui.iot.protocol;
 
 import cn.hutool.core.util.StrUtil;
 import com.sanshengshui.iot.common.auth.GrozaAuthService;
+import com.sanshengshui.iot.common.session.GrozaSessionStoreService;
+import com.sanshengshui.iot.common.session.SessionStore;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.*;
 import io.netty.util.CharsetUtil;
@@ -12,6 +14,13 @@ public class Connect {
     private static final Logger LOGGER = LoggerFactory.getLogger(Connect.class);
 
     private GrozaAuthService grozaAuthService;
+
+    private GrozaSessionStoreService grozaSessionStoreService;
+
+    public Connect(GrozaAuthService grozaAuthService,GrozaSessionStoreService grozaSessionStoreService){
+        this.grozaAuthService = grozaAuthService;
+        this.grozaSessionStoreService = grozaSessionStoreService;
+    }
 
     public void processConnect(Channel channel, MqttConnectMessage msg){
         // 消息解码器出现异常
@@ -56,6 +65,15 @@ public class Connect {
             channel.writeAndFlush(connAckMessage);
             channel.close();
             return;
+        }
+        // 如果会话中已存储这个新连接的clientId, 就关闭之前该clientId的连接
+        if (grozaSessionStoreService.containsKey(msg.payload().clientIdentifier())){
+            SessionStore sessionStore = grozaSessionStoreService.get(msg.payload().clientIdentifier());
+        }
+        //处理遗嘱信息
+        SessionStore sessionStore = new SessionStore(msg.payload().clientIdentifier(),channel,msg.variableHeader().isCleanSession(),null);
+        if (msg.variableHeader().isWillFlag()){
+
         }
     }
 }
