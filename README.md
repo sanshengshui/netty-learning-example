@@ -6,7 +6,7 @@
 
 备注: :wrench: :表示**施工中,尚未完成**;   :memo: :表示**已完成,但是没有写博文**; :ok_hand: 表示**已完成,并有相应的博文**;
 
-
+![水平分割线](/home/james/IdeaProjects/netty-learning-example/pic/horizon.png)
 
 **什么是Netty?能做什么?**
 
