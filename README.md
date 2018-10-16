@@ -49,7 +49,7 @@
   [《netty 之 netty 整合 Kafka producer》](https://github.com/sanshengshui/netty-learning-example/tree/master/netty-kafka)<br>
 
 
-- 👌 netty-springboot-protobuf :ok_hand:<br>
+- 👌 netty-springboot-protobuf <br>
   [《netty 之 netty整合springboot并使用protobuf进行传输》](https://www.cnblogs.com/sanshengshui/p/9741655.html)<br>
 
 ## d. 『 高级 - 高级应用篇 』
