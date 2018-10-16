@@ -1,6 +1,5 @@
 package com.sanshengshui.iot.common.session;
 
-import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.MqttPublishMessage;
 
 import java.io.Serializable;
@@ -11,24 +10,20 @@ import java.io.Serializable;
  */
 public class SessionStore implements Serializable {
     private static final long serialVersionUID = -1L;
-
     private String clientId;
-
-    private Channel channel;
-
+    private String channelId;
     private boolean cleanSession;
-
     private MqttPublishMessage willMessage;
 
-    public SessionStore(String clientId, Channel channel, boolean cleanSession, MqttPublishMessage willMessage) {
+    public SessionStore(String clientId, String channelId, boolean cleanSession, MqttPublishMessage willMessage) {
         this.clientId = clientId;
-        this.channel = channel;
+        this.channelId = channelId;
         this.cleanSession = cleanSession;
         this.willMessage = willMessage;
     }
 
     public String getClientId() {
-        return clientId;
+        return this.clientId;
     }
 
     public SessionStore setClientId(String clientId) {
@@ -36,17 +31,16 @@ public class SessionStore implements Serializable {
         return this;
     }
 
-    public Channel getChannel() {
-        return channel;
+    public String getChannelId() {
+        return this.channelId;
     }
 
-    public SessionStore setChannel(Channel channel) {
-        this.channel = channel;
-        return this;
+    public void setChannelId(String channelId) {
+        this.channelId = channelId;
     }
 
     public boolean isCleanSession() {
-        return cleanSession;
+        return this.cleanSession;
     }
 
     public SessionStore setCleanSession(boolean cleanSession) {
@@ -55,7 +49,7 @@ public class SessionStore implements Serializable {
     }
 
     public MqttPublishMessage getWillMessage() {
-        return willMessage;
+        return this.willMessage;
     }
 
     public SessionStore setWillMessage(MqttPublishMessage willMessage) {

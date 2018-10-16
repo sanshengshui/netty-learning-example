@@ -4,8 +4,11 @@ import cn.hutool.core.util.StrUtil;
 import com.sanshengshui.iot.common.auth.GrozaAuthService;
 import com.sanshengshui.iot.common.session.GrozaSessionStoreService;
 import com.sanshengshui.iot.common.session.SessionStore;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.*;
+import io.netty.handler.timeout.IdleStateHandler;
+import io.netty.util.AttributeKey;
 import io.netty.util.CharsetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,8 +74,35 @@ public class Connect {
             SessionStore sessionStore = grozaSessionStoreService.get(msg.payload().clientIdentifier());
         }
         //处理遗嘱信息
-        SessionStore sessionStore = new SessionStore(msg.payload().clientIdentifier(),channel,msg.variableHeader().isCleanSession(),null);
+        SessionStore sessionStore = new SessionStore(msg.payload().clientIdentifier(),channel.id().asLongText(),msg.variableHeader().isCleanSession(),null);
         if (msg.variableHeader().isWillFlag()){
+            MqttPublishMessage willMessage = (MqttPublishMessage) MqttMessageFactory.newMessage(
+                    new MqttFixedHeader(MqttMessageType.PUBLISH,false, MqttQoS.valueOf(msg.variableHeader().willQos()),msg.variableHeader().isWillRetain(),0),
+                    new MqttPublishVariableHeader(msg.payload().willTopic(),0),
+                    Unpooled.buffer().writeBytes(msg.payload().willMessageInBytes())
+            );
+            sessionStore.setWillMessage(willMessage);
+        }
+        if (msg.variableHeader().keepAliveTimeSeconds() > 0){
+            if (channel.pipeline().names().contains("idle")){
+                channel.pipeline().remove("idle");
+            }
+            channel.pipeline().addFirst("idle",new IdleStateHandler(0, 0, Math.round(msg.variableHeader().keepAliveTimeSeconds() * 1.5f)));
+        }
+        //至此存储会话消息及返回接受客户端连接
+        grozaSessionStoreService.put(msg.payload().clientIdentifier(),sessionStore);
+        //将clientId存储到channel的map中
+        channel.attr(AttributeKey.valueOf("clientId")).set(msg.payload().clientIdentifier());
+        Boolean sessionPresent = grozaSessionStoreService.containsKey(msg.payload().clientIdentifier()) && !msg.variableHeader().isCleanSession();
+        MqttConnAckMessage okResp = (MqttConnAckMessage) MqttMessageFactory.newMessage(
+                new MqttFixedHeader(MqttMessageType.CONNACK,false,MqttQoS.AT_MOST_ONCE,false,0),
+                new MqttConnAckVariableHeader(MqttConnectReturnCode.CONNECTION_ACCEPTED,sessionPresent),
+                null
+        );
+        channel.writeAndFlush(okResp);
+        LOGGER.debug("CONNECT - clientId: {}, cleanSession: {}", msg.payload().clientIdentifier(), msg.variableHeader().isCleanSession());
+        // 如果cleanSession为0, 需要重发同一clientId存储的未完成的QoS1和QoS2的DUP消息
+        if (!msg.variableHeader().isCleanSession()){
 
         }
     }
