@@ -34,6 +34,8 @@
 
 ## b. 『 基础 - 通讯协议篇 』
 
+![netty-http](pic/netty-http.png)
+
 - 👌 :netty-http<br>
   [《netty 之 高性能http服务器 详解》](https://www.cnblogs.com/sanshengshui/p/9774746.html)<br>
   
