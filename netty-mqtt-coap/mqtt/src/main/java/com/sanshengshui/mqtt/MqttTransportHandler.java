@@ -53,11 +53,6 @@ public class MqttTransportHandler extends ChannelInboundHandlerAdapter implement
             return;
         }
 
-        /*if (quotaService.isQuotaExceeded(address.getHostName())) {
-            log.warn("MQTT Quota exceeded for [{}:{}] . Disconnect", address.getHostName(), address.getPort());
-            processDisconnect(ctx);
-            return;
-        }*/
 
         if(msg.fixedHeader().messageType().equals(MqttMessageType.CONNECT)) {
             processConnect(ctx, (MqttConnectMessage) msg);
@@ -99,7 +94,6 @@ public class MqttTransportHandler extends ChannelInboundHandlerAdapter implement
 
         // 此处可以对设备进行校验，根据token或者其他
         String userName = msg.payload().userName();
-        // String password = msg.payload().password();
         String devId = msg.payload().clientIdentifier();
         // 此外默认是校验成功，等待确定好校验方式
         if (StringUtils.isEmpty(userName)) {
@@ -130,7 +124,7 @@ public class MqttTransportHandler extends ChannelInboundHandlerAdapter implement
         String payload = payLoad.toString(Charset.forName("UTF-8"));
         if(StringUtils.isEmpty(topicName)) {
             return;
-        }else if("/device/status".equals(topicName)) {
+        }else if(topicName.contains("Topic/flexem/fbox/")) {
             log.info("deviceId is: " + deviceId +"payload is: "+payload);
         }else if("/device/paramValue".equals(topicName)) {
             log.info("deviceId is: " + deviceId +"payload is: "+payload);
@@ -268,12 +262,6 @@ public class MqttTransportHandler extends ChannelInboundHandlerAdapter implement
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
 
-//        if(!ctx.isRemoved()){
-//            String deviceId = ctx.channel().attr(_deviceId).get();
-//            log.error("device [{}] Unexpected Exception", deviceId);
-//            MqttHandlerService.dealDisConnected(deviceId);
-//            ctx.close();
-//        }
     }
 
     @Override
@@ -282,9 +270,6 @@ public class MqttTransportHandler extends ChannelInboundHandlerAdapter implement
         if(evt instanceof IdleStateEvent){
             IdleStateEvent event = (IdleStateEvent) evt;
             switch(event.state()){
-//                case READER_IDLE:
-//                    this.sendPingReq(ctx.channel());
-//                    break;
                 case WRITER_IDLE:
                     this.sendPingReq(ctx.channel());
                     break;

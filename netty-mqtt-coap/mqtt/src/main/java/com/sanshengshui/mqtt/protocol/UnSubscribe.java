@@ -1,8 +1,8 @@
 package com.sanshengshui.mqtt.protocol;
 
 /**
+ * UNSUBSCRIBE连接处理
  * @author james
- * CONNECT连接处理
  */
-public class Connect {
+public class UnSubscribe {
 }
