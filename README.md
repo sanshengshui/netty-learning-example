@@ -38,7 +38,12 @@
 
 - 👌 :netty-http<br>
   [《netty 之 高性能http服务器 详解》](https://www.cnblogs.com/sanshengshui/p/9774746.html)<br>
-  
+
+  ![](pic/netty-springboot-protobuf.png)
+
+- 👌 netty-springboot-protobuf <br>
+  [《netty 之 netty整合springboot并使用protobuf进行传输》](https://www.cnblogs.com/sanshengshui/p/9741655.html)<br>
+
 - :wrench: : netty-mqtt-coap
 
   [《netty 之 netty实现mqtt,coap服务器》](https://github.com/sanshengshui/netty-learning-example/tree/master/netty-mqtt-coap)<br>
@@ -49,10 +54,6 @@
 - :wrench::​ netty-kafka
 
   [《netty 之 netty 整合 Kafka producer》](https://github.com/sanshengshui/netty-learning-example/tree/master/netty-kafka)<br>
-
-
-- 👌 netty-springboot-protobuf <br>
-  [《netty 之 netty整合springboot并使用protobuf进行传输》](https://www.cnblogs.com/sanshengshui/p/9741655.html)<br>
 
 ## d. 『 高级 - 高级应用篇 』
 
