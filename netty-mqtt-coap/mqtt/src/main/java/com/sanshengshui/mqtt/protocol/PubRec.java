@@ -2,6 +2,8 @@ package com.sanshengshui.mqtt.protocol;
 
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.MqttMessageIdVariableHeader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -9,6 +11,7 @@ import io.netty.handler.codec.mqtt.MqttMessageIdVariableHeader;
  * @author james
  */
 public class PubRec {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PubRec.class);
 
     public void processPubRec(Channel channel, MqttMessageIdVariableHeader variableHeader){
 
