@@ -2,24 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <!--<parent>-->
-        <!--<groupId>com.sanshengshui</groupId>-->
-        <!--<artifactId>netty-mqtt-coap</artifactId>-->
-        <!--<version>0.0.1-SNAPSHOT</version>-->
-    <!--</parent>-->
 
-    <groupId>com.sanshengshui.netty-mqtt-coap</groupId>
-    <artifactId>mqtt</artifactId>
+    <groupId>com.sanshengshui</groupId>
+    <artifactId>netty-mqtt</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>netty :: Mqtt</name>
-    <description>netty实现mqtt服务器</description>
+    <description>Demo project for Spring Boot</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.2.RELEASE</version>
+        <version>2.0.6.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -27,8 +22,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <netty-all.version>4.1.29.Final</netty-all.version>
-        <hutool.version>4.1.6</hutool.version>
     </properties>
 
     <dependencies>
@@ -36,6 +29,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -45,20 +39,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>${netty-all.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-crypto</artifactId>
-            <version>${hutool.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
         </dependency>
     </dependencies>
 
