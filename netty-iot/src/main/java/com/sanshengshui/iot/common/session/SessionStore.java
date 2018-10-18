@@ -56,4 +56,14 @@ public class SessionStore implements Serializable {
         this.willMessage = willMessage;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "SessionStore{" +
+                "clientId='" + clientId + '\'' +
+                ", channelId='" + channelId + '\'' +
+                ", cleanSession=" + cleanSession +
+                ", willMessage=" + willMessage +
+                '}';
+    }
 }
