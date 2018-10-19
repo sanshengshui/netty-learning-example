@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 public class GrozaDupPublishMessageCache {
-    private final static String CACHE_PRE = "mqtt:publish:";
+    private final static String CACHE_PRE = "groza:publish:";
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;

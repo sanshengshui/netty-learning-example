@@ -1,9 +1,6 @@
 package com.sanshengshui.iot;
 
-import com.google.gson.Gson;
 import com.sanshengshui.iot.common.session.SessionStore;
-import io.netty.buffer.Unpooled;
-import io.netty.handler.codec.mqtt.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,14 +23,13 @@ public class MqttTests {
     @Test
     public void GrozaSessionStoreTest(){
 
-        SessionStore sessionStore = new SessionStore("20181018163127","123456789",true,null);
-
-        MqttPublishMessage willMessage = (MqttPublishMessage) MqttMessageFactory.newMessage(
-                new MqttFixedHeader(MqttMessageType.PUBLISH, false, MqttQoS.AT_MOST_ONCE, false, 0),
-                new MqttPublishVariableHeader("/test", 0),
-                Unpooled.buffer().writeBytes(new byte[]{1,2,3,4,5,6}));
-        sessionStore.setWillMessage(willMessage);
-
+        SessionStore sessionStore = new SessionStore();
+        sessionStore.setChannelId("20181018163127");
+        sessionStore.setCleanSession(true);
+        sessionStore.setClientId("111");
+        redisCacheTemplate.opsForValue().set("graza:20181018163127",sessionStore);
+        final SessionStore sessionStore1 = (SessionStore) redisCacheTemplate.opsForValue().get("graza:20181018163127");
+        log.info("[对象缓存结果] - [{}]", sessionStore1);
         log.info(sessionStore.toString());
 
     }

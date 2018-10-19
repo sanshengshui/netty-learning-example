@@ -13,26 +13,26 @@ public class SessionStore implements Serializable {
     private String clientId;
     private String channelId;
     private boolean cleanSession;
-    private MqttPublishMessage willMessage;
 
-    public SessionStore(String clientId, String channelId, boolean cleanSession, MqttPublishMessage willMessage) {
+    public SessionStore(String clientId, String channelId, boolean cleanSession) {
         this.clientId = clientId;
         this.channelId = channelId;
         this.cleanSession = cleanSession;
-        this.willMessage = willMessage;
+    }
+    public SessionStore(){
+
     }
 
     public String getClientId() {
-        return this.clientId;
+        return clientId;
     }
 
-    public SessionStore setClientId(String clientId) {
+    public void setClientId(String clientId) {
         this.clientId = clientId;
-        return this;
     }
 
     public String getChannelId() {
-        return this.channelId;
+        return channelId;
     }
 
     public void setChannelId(String channelId) {
@@ -40,30 +40,10 @@ public class SessionStore implements Serializable {
     }
 
     public boolean isCleanSession() {
-        return this.cleanSession;
+        return cleanSession;
     }
 
-    public SessionStore setCleanSession(boolean cleanSession) {
+    public void setCleanSession(boolean cleanSession) {
         this.cleanSession = cleanSession;
-        return this;
-    }
-
-    public MqttPublishMessage getWillMessage() {
-        return this.willMessage;
-    }
-
-    public SessionStore setWillMessage(MqttPublishMessage willMessage) {
-        this.willMessage = willMessage;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return "SessionStore{" +
-                "clientId='" + clientId + '\'' +
-                ", channelId='" + channelId + '\'' +
-                ", cleanSession=" + cleanSession +
-                ", willMessage=" + willMessage +
-                '}';
     }
 }

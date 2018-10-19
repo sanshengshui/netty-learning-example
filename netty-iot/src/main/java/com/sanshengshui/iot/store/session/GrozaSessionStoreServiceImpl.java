@@ -1,6 +1,5 @@
 package com.sanshengshui.iot.store.session;
 
-import com.google.gson.Gson;
 import com.sanshengshui.iot.common.session.GrozaSessionStoreService;
 import com.sanshengshui.iot.common.session.SessionStore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,7 @@ public class GrozaSessionStoreServiceImpl implements GrozaSessionStoreService {
 
     @Override
     public void put(String clientId, SessionStore sessionStore) {
-        Gson gs = new Gson();
-        redisCacheTemplate.opsForValue().set(CACHE_PRE + clientId, gs.toJson(sessionStore));
+        redisCacheTemplate.opsForValue().set(CACHE_PRE + clientId, sessionStore);
     }
 
     @Override

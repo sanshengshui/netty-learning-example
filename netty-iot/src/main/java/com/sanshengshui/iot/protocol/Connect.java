@@ -74,14 +74,13 @@ public class Connect {
             SessionStore sessionStore = grozaSessionStoreService.get(msg.payload().clientIdentifier());
         }
         //处理遗嘱信息
-        SessionStore sessionStore = new SessionStore(msg.payload().clientIdentifier(),channel.id().asLongText(),msg.variableHeader().isCleanSession(),null);
+        SessionStore sessionStore = new SessionStore(msg.payload().clientIdentifier(),channel.id().asLongText(),msg.variableHeader().isCleanSession());
         if (msg.variableHeader().isWillFlag()){
             MqttPublishMessage willMessage = (MqttPublishMessage) MqttMessageFactory.newMessage(
                     new MqttFixedHeader(MqttMessageType.PUBLISH,false, MqttQoS.valueOf(msg.variableHeader().willQos()),msg.variableHeader().isWillRetain(),0),
                     new MqttPublishVariableHeader(msg.payload().willTopic(),0),
                     Unpooled.buffer().writeBytes(msg.payload().willMessageInBytes())
             );
-            sessionStore.setWillMessage(willMessage);
         }
         if (msg.variableHeader().keepAliveTimeSeconds() > 0){
             if (channel.pipeline().names().contains("idle")){
