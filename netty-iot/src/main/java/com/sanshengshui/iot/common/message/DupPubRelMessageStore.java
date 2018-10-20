@@ -14,8 +14,12 @@ public class DupPubRelMessageStore implements Serializable {
 
     private int messageId;
 
+    public DupPubRelMessageStore(){
+
+    }
+
     public String getClientId() {
-        return clientId;
+        return this.clientId;
     }
 
     public DupPubRelMessageStore setClientId(String clientId) {
@@ -24,7 +28,7 @@ public class DupPubRelMessageStore implements Serializable {
     }
 
     public int getMessageId() {
-        return messageId;
+        return this.messageId;
     }
 
     public DupPubRelMessageStore setMessageId(int messageId) {
