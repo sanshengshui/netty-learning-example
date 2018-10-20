@@ -2,6 +2,8 @@ package com.sanshengshui.iot.protocol;
 
 import cn.hutool.core.util.StrUtil;
 import com.sanshengshui.iot.common.auth.GrozaAuthService;
+import com.sanshengshui.iot.common.message.DupPubRelMessageStore;
+import com.sanshengshui.iot.common.message.DupPublishMessageStore;
 import com.sanshengshui.iot.common.message.GrozaDupPubRelMessageStoreService;
 import com.sanshengshui.iot.common.message.GrozaDupPublishMessageStoreService;
 import com.sanshengshui.iot.common.session.GrozaSessionStoreService;
@@ -18,6 +20,7 @@ import io.netty.util.CharsetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Map;
 
 public class Connect {
@@ -104,6 +107,19 @@ public class Connect {
             if (cleanSession){
                 grozaSessionStoreService.remove(msg.payload().clientIdentifier());
                 grozaSubscribeStoreService.removeForClient(msg.payload().clientIdentifier());
+                grozaDupPublishMessageStoreService.removeByClient(msg.payload().clientIdentifier());
+                grozaDupPubRelMessageStoreService.removeByClient(msg.payload().clientIdentifier());
+            }
+            try {
+                ChannelId channelId = channelIdMap.get(sessionStore.getChannelId());
+                if (channelId != null){
+                    Channel previous = channelGroup.find(channelId);
+                    if (previous != null){
+                        previous.close();
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
         }
         //处理遗嘱信息
@@ -115,6 +131,7 @@ public class Connect {
                     Unpooled.buffer().writeBytes(msg.payload().willMessageInBytes())
             );
         }
+        //处理连接心跳包
         if (msg.variableHeader().keepAliveTimeSeconds() > 0){
             if (channel.pipeline().names().contains("idle")){
                 channel.pipeline().remove("idle");
@@ -135,7 +152,24 @@ public class Connect {
         LOGGER.debug("CONNECT - clientId: {}, cleanSession: {}", msg.payload().clientIdentifier(), msg.variableHeader().isCleanSession());
         // 如果cleanSession为0, 需要重发同一clientId存储的未完成的QoS1和QoS2的DUP消息
         if (!msg.variableHeader().isCleanSession()){
-
+            List<DupPublishMessageStore> dupPublishMessageStoreList = grozaDupPublishMessageStoreService.get(msg.payload().clientIdentifier());
+            List<DupPubRelMessageStore> dupPubRelMessageStoreList = grozaDupPubRelMessageStoreService.get(msg.payload().clientIdentifier());
+            dupPublishMessageStoreList.forEach(dupPublishMessageStore -> {
+                MqttPublishMessage publishMessage = (MqttPublishMessage)MqttMessageFactory.newMessage(
+                        new MqttFixedHeader(MqttMessageType.PUBLISH,true,MqttQoS.valueOf(dupPublishMessageStore.getMqttQoS()),false,0),
+                        new MqttPublishVariableHeader(dupPublishMessageStore.getTopic(),dupPublishMessageStore.getMessageId()),
+                        Unpooled.buffer().writeBytes(dupPublishMessageStore.getMessageBytes())
+                );
+                channel.writeAndFlush(publishMessage);
+            });
+            dupPubRelMessageStoreList.forEach(dupPubRelMessageStore -> {
+                MqttMessage pubRelMessage = MqttMessageFactory.newMessage(
+                        new MqttFixedHeader(MqttMessageType.PUBREL,true,MqttQoS.AT_MOST_ONCE,false,0),
+                        MqttMessageIdVariableHeader.from(dupPubRelMessageStore.getMessageId()),
+                        null
+                );
+                channel.writeAndFlush(pubRelMessage);
+            });
         }
     }
 }
