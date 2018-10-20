@@ -2,16 +2,23 @@ package com.sanshengshui.iot.protocol;
 
 import cn.hutool.core.util.StrUtil;
 import com.sanshengshui.iot.common.auth.GrozaAuthService;
+import com.sanshengshui.iot.common.message.GrozaDupPubRelMessageStoreService;
+import com.sanshengshui.iot.common.message.GrozaDupPublishMessageStoreService;
 import com.sanshengshui.iot.common.session.GrozaSessionStoreService;
 import com.sanshengshui.iot.common.session.SessionStore;
+import com.sanshengshui.iot.common.subscribe.GrozaSubscribeStoreService;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelId;
+import io.netty.channel.group.ChannelGroup;
 import io.netty.handler.codec.mqtt.*;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.AttributeKey;
 import io.netty.util.CharsetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
 
 public class Connect {
     private static final Logger LOGGER = LoggerFactory.getLogger(Connect.class);
@@ -20,9 +27,30 @@ public class Connect {
 
     private GrozaSessionStoreService grozaSessionStoreService;
 
-    public Connect(GrozaAuthService grozaAuthService,GrozaSessionStoreService grozaSessionStoreService){
+    private GrozaDupPublishMessageStoreService grozaDupPublishMessageStoreService;
+
+    private GrozaDupPubRelMessageStoreService grozaDupPubRelMessageStoreService;
+
+    private GrozaSubscribeStoreService grozaSubscribeStoreService;
+
+    private ChannelGroup channelGroup;
+
+    private Map<String, ChannelId> channelIdMap;
+
+
+    public Connect(GrozaAuthService grozaAuthService,
+                   GrozaSessionStoreService grozaSessionStoreService,
+                   GrozaDupPublishMessageStoreService grozaDupPublishMessageStoreService,
+                   GrozaDupPubRelMessageStoreService grozaDupPubRelMessageStoreService,
+                   GrozaSubscribeStoreService grozaSubscribeStoreService,
+                   ChannelGroup channelGroup,
+                   Map<String, ChannelId> channelIdMap){
         this.grozaAuthService = grozaAuthService;
         this.grozaSessionStoreService = grozaSessionStoreService;
+        this.grozaDupPublishMessageStoreService = grozaDupPublishMessageStoreService;
+        this.grozaDupPubRelMessageStoreService = grozaDupPubRelMessageStoreService;
+        this.channelGroup = channelGroup;
+        this.channelIdMap = channelIdMap;
     }
 
     public void processConnect(Channel channel, MqttConnectMessage msg){
@@ -72,6 +100,11 @@ public class Connect {
         // 如果会话中已存储这个新连接的clientId, 就关闭之前该clientId的连接
         if (grozaSessionStoreService.containsKey(msg.payload().clientIdentifier())){
             SessionStore sessionStore = grozaSessionStoreService.get(msg.payload().clientIdentifier());
+            Boolean cleanSession = sessionStore.isCleanSession();
+            if (cleanSession){
+                grozaSessionStoreService.remove(msg.payload().clientIdentifier());
+                grozaSubscribeStoreService.removeForClient(msg.payload().clientIdentifier());
+            }
         }
         //处理遗嘱信息
         SessionStore sessionStore = new SessionStore(msg.payload().clientIdentifier(),channel.id().asLongText(),msg.variableHeader().isCleanSession());
