@@ -15,7 +15,9 @@ public class PingReq {
 
     public void processPingReq(Channel channel, MqttMessage msg){
         MqttMessage pingRespMessage = MqttMessageFactory.newMessage(
-                new MqttFixedHeader(MqttMessageType.PINGRESP, false, MqttQoS.AT_MOST_ONCE, false, 0), null, null);
+                new MqttFixedHeader(MqttMessageType.PINGRESP, false, MqttQoS.AT_MOST_ONCE, false, 0),
+                null,
+                null);
         LOGGER.debug("PINGREQ - clientId: {}", (String) channel.attr(AttributeKey.valueOf("clientId")).get());
         channel.writeAndFlush(pingRespMessage);
 
