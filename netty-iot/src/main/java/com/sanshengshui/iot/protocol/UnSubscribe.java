@@ -27,7 +27,8 @@ public class UnSubscribe {
         });
         MqttUnsubAckMessage unsubAckMessage = (MqttUnsubAckMessage) MqttMessageFactory.newMessage(
                 new MqttFixedHeader(MqttMessageType.UNSUBACK, false, MqttQoS.AT_MOST_ONCE, false, 0),
-                MqttMessageIdVariableHeader.from(msg.variableHeader().messageId()), null);
+                MqttMessageIdVariableHeader.from(msg.variableHeader().messageId()),
+                null);
         channel.writeAndFlush(unsubAckMessage);
     }
 }
