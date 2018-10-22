@@ -10,3 +10,16 @@ spring:
         max-idle: 8
         max-wait: -1ms
         max-active: 8
+# MQTT server parameters
+mqtt:
+  # Enable/disable mqtt transport protocol.
+  enabled: true
+  bind_address: 0.0.0.0
+  bind_port: 1883
+  adaptor: JsonMqttAdaptor
+  timeout: 10000
+  netty:
+    leak_detector_level: DISABLED
+    boss_group_thread_count: 1
+    worker_group_thread_count: 8
+    max_payload_size: 65536

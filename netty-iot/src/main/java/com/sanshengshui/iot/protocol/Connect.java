@@ -56,6 +56,7 @@ public class Connect {
         this.grozaSessionStoreService = grozaSessionStoreService;
         this.grozaDupPublishMessageStoreService = grozaDupPublishMessageStoreService;
         this.grozaDupPubRelMessageStoreService = grozaDupPubRelMessageStoreService;
+        this.grozaSubscribeStoreService = grozaSubscribeStoreService;
         this.channelGroup = channelGroup;
         this.channelIdMap = channelIdMap;
     }
