@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class GrozaSubscribeNotWildcardCache {
     public static final String CACHE_PRE = "groza:subnotwildcard:";
-    public static final String CACHE_CLIENT_PRE = "groza:client";
+    public static final String CACHE_CLIENT_PRE = "groza:client:";
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
