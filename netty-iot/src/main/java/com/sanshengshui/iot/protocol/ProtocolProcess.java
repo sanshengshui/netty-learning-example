@@ -34,10 +34,6 @@ public class ProtocolProcess {
     @Autowired
     private GrozaDupPubRelMessageStoreService grozaDupPubRelMessageStoreService;
 
-    private ChannelGroup channelGroup;
-
-    private Map<String, ChannelId> channelIdMap;
-
     private Connect connect;
 
     private Subscribe subscribe;
@@ -79,7 +75,7 @@ public class ProtocolProcess {
 
     public Publish publish() {
         if (publish == null) {
-            publish = new Publish(grozaSessionStoreService, grozaSubscribeStoreService, grozaMessageIdService, grozaRetainMessageStoreService, grozaDupPublishMessageStoreService, channelGroup, channelIdMap);
+            publish = new Publish(grozaSessionStoreService, grozaSubscribeStoreService, grozaMessageIdService, grozaRetainMessageStoreService, grozaDupPublishMessageStoreService);
         }
         return publish;
     }

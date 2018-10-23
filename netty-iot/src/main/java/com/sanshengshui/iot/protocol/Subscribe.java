@@ -10,8 +10,7 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.*;
 import io.netty.util.AttributeKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +18,8 @@ import java.util.List;
 /**
  * SUBSCRIBE连接处理
  */
+@Slf4j
 public class Subscribe {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Subscribe.class);
 
     private GrozaSubscribeStoreService grozaSubscribeStoreService;
 
@@ -47,7 +46,7 @@ public class Subscribe {
                 SubscribeStore subscribeStore = new SubscribeStore(clientId, topicFilter, mqttQoS.value());
                 grozaSubscribeStoreService.put(topicFilter, subscribeStore);
                 mqttQoSList.add(mqttQoS.value());
-                LOGGER.debug("SUBSCRIBE - clientId: {}, topFilter: {}, QoS: {}", clientId, topicFilter, mqttQoS.value());
+                log.info("SUBSCRIBE - clientId: {}, topFilter: {}, QoS: {}", clientId, topicFilter, mqttQoS.value());
             });
             MqttSubAckMessage subAckMessage = (MqttSubAckMessage) MqttMessageFactory.newMessage(
                     new MqttFixedHeader(MqttMessageType.SUBACK, false, MqttQoS.AT_MOST_ONCE, false, 0),
@@ -98,7 +97,7 @@ public class Subscribe {
                 MqttPublishMessage publishMessage = (MqttPublishMessage) MqttMessageFactory.newMessage(
                         new MqttFixedHeader(MqttMessageType.PUBLISH, false, respQoS, false, 0),
                         new MqttPublishVariableHeader(retainMessageStore.getTopic(), 0), Unpooled.buffer().writeBytes(retainMessageStore.getMessageBytes()));
-                LOGGER.debug("PUBLISH - clientId: {}, topic: {}, Qos: {}", (String) channel.attr(AttributeKey.valueOf("clientId")).get(), retainMessageStore.getTopic(), respQoS.value());
+                log.info("PUBLISH - clientId: {}, topic: {}, Qos: {}", (String) channel.attr(AttributeKey.valueOf("clientId")).get(), retainMessageStore.getTopic(), respQoS.value());
                 channel.writeAndFlush(publishMessage);
             }
             if (respQoS == MqttQoS.AT_LEAST_ONCE) {
@@ -106,7 +105,7 @@ public class Subscribe {
                 MqttPublishMessage publishMessage = (MqttPublishMessage) MqttMessageFactory.newMessage(
                         new MqttFixedHeader(MqttMessageType.PUBLISH, false, respQoS, false, 0),
                         new MqttPublishVariableHeader(retainMessageStore.getTopic(), messageId), Unpooled.buffer().writeBytes(retainMessageStore.getMessageBytes()));
-                LOGGER.debug("PUBLISH - clientId: {}, topic: {}, Qos: {}, messageId: {}", (String) channel.attr(AttributeKey.valueOf("clientId")).get(), retainMessageStore.getTopic(), respQoS.value(), messageId);
+                log.info("PUBLISH - clientId: {}, topic: {}, Qos: {}, messageId: {}", (String) channel.attr(AttributeKey.valueOf("clientId")).get(), retainMessageStore.getTopic(), respQoS.value(), messageId);
                 channel.writeAndFlush(publishMessage);
             }
             if (respQoS == MqttQoS.EXACTLY_ONCE) {
@@ -114,7 +113,7 @@ public class Subscribe {
                 MqttPublishMessage publishMessage = (MqttPublishMessage) MqttMessageFactory.newMessage(
                         new MqttFixedHeader(MqttMessageType.PUBLISH, false, respQoS, false, 0),
                         new MqttPublishVariableHeader(retainMessageStore.getTopic(), messageId), Unpooled.buffer().writeBytes(retainMessageStore.getMessageBytes()));
-                LOGGER.debug("PUBLISH - clientId: {}, topic: {}, Qos: {}, messageId: {}", (String) channel.attr(AttributeKey.valueOf("clientId")).get(), retainMessageStore.getTopic(), respQoS.value(), messageId);
+                log.info("PUBLISH - clientId: {}, topic: {}, Qos: {}, messageId: {}", (String) channel.attr(AttributeKey.valueOf("clientId")).get(), retainMessageStore.getTopic(), respQoS.value(), messageId);
                 channel.writeAndFlush(publishMessage);
             }
         });
