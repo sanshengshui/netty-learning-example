@@ -6,7 +6,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.mqtt.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 消息处理
@@ -14,13 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Slf4j
 @ChannelHandler.Sharable
 public class MqttTransportHandler extends SimpleChannelInboundHandler<MqttMessage> {
-    @Autowired
+
     private ProtocolProcess protocolProcess;
 
-    private final int keepaliveSeconds;
 
-    public MqttTransportHandler(int keepaliveSeconds) {
-        this.keepaliveSeconds = keepaliveSeconds;
+    public MqttTransportHandler(ProtocolProcess protocolProcess) {
+        this.protocolProcess = protocolProcess;
     }
 
     @Override

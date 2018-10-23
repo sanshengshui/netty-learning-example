@@ -1,12 +1,20 @@
 package com.sanshengshui.iot.server;
 
+import com.sanshengshui.iot.protocol.ProtocolProcess;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.mqtt.MqttDecoder;
+import io.netty.handler.codec.mqtt.MqttEncoder;
+import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.ResourceLeakDetector;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -14,6 +22,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author james
@@ -39,6 +48,9 @@ public class MqttServer {
     @Value("${mqtt.netty.max_payload_size}")
     private Integer maxPayloadSize;
 
+    @Autowired
+    private ProtocolProcess protocolProcess;
+
     private Channel serverChannel;
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
@@ -56,7 +68,17 @@ public class MqttServer {
         ServerBootstrap b = new ServerBootstrap();
         b.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(new MqttServerInitializer(maxPayloadSize));
+                .childHandler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    protected void initChannel(SocketChannel socketChannel) throws Exception {
+                        ChannelPipeline pipeline = socketChannel.pipeline();
+                        pipeline.addLast("decoder", new MqttDecoder(maxPayloadSize));
+                        pipeline.addLast("encoder", MqttEncoder.INSTANCE);
+                        //pipeline.addLast("idleStateHandler", new IdleStateHandler(10,2,12, TimeUnit.SECONDS));
+                        MqttTransportHandler handler = new MqttTransportHandler(protocolProcess);
+                        pipeline.addLast(handler);
+                    }
+                });
 
         serverChannel = b.bind(host, port).sync().channel();
 
