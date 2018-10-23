@@ -31,7 +31,7 @@ public class AuthServiceImpl implements GrozaAuthService {
         return value.equals(password) ? true : false;
     }
 
-    //@PostConstruct
+    @PostConstruct
     public void init() {
         privateKey = IoUtil.readObj(AuthServiceImpl.class.getClassLoader().getResourceAsStream("keystore/auth-private.key"));
     }
