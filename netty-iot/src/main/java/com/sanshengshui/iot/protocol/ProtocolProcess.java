@@ -60,7 +60,7 @@ public class ProtocolProcess {
 
     public Connect connect(){
         if (connect == null){
-            connect = new Connect(grozaAuthService, grozaSessionStoreService, grozaDupPublishMessageStoreService, grozaDupPubRelMessageStoreService, grozaSubscribeStoreService, channelGroup, channelIdMap);
+            connect = new Connect(grozaAuthService, grozaSessionStoreService, grozaDupPublishMessageStoreService, grozaDupPubRelMessageStoreService, grozaSubscribeStoreService);
         }
         return connect;
     }

@@ -7,35 +7,33 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class GrozaSessionStoreServiceImpl implements GrozaSessionStoreService {
 
-    public static final String CACHE_PRE = "groza:";
-
-    @Autowired
-    private RedisTemplate<String, Serializable> redisCacheTemplate;
-
+    private Map<String, SessionStore> sessionCache = new ConcurrentHashMap<String, SessionStore>();
 
     @Override
     public void put(String clientId, SessionStore sessionStore) {
-        redisCacheTemplate.opsForValue().set(CACHE_PRE + clientId, sessionStore);
+        sessionCache.put(clientId, sessionStore);
     }
 
     @Override
     public SessionStore get(String clientId) {
-        SessionStore obj = (SessionStore) redisCacheTemplate.opsForValue().get(CACHE_PRE + clientId);
-        return obj;
+        return sessionCache.get(clientId);
     }
 
     @Override
     public boolean containsKey(String clientId) {
-        return redisCacheTemplate.hasKey(CACHE_PRE + clientId);
+        return sessionCache.containsKey(clientId);
     }
 
     @Override
     public void remove(String clientId) {
-        redisCacheTemplate.delete(CACHE_PRE + clientId);
-
+        sessionCache.remove(clientId);
     }
+
+
 }

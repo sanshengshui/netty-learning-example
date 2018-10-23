@@ -106,15 +106,10 @@ public class Publish {
                 if (respQoS == MqttQoS.AT_MOST_ONCE) {
                     MqttPublishMessage publishMessage = (MqttPublishMessage) MqttMessageFactory.newMessage(
                             new MqttFixedHeader(MqttMessageType.PUBLISH, dup, respQoS, retain, 0),
-                            new MqttPublishVariableHeader(topic, 0), Unpooled.buffer().writeBytes(messageBytes));
+                            new MqttPublishVariableHeader(topic, 0),
+                            Unpooled.buffer().writeBytes(messageBytes));
                     LOGGER.debug("PUBLISH - clientId: {}, topic: {}, Qos: {}", subscribeStore.getClientId(), topic, respQoS.value());
-                    ChannelId channelId = channelIdMap.get(grozaSessionStoreService.get(subscribeStore.getClientId()).getChannelId());
-                    if(channelId!=null) {
-                        Channel channel = channelGroup.find(channelId);
-                        if (channel != null){
-                            channel.writeAndFlush(publishMessage);
-                        }
-                    }
+                    grozaSessionStoreService.get(subscribeStore.getClientId()).getChannel().writeAndFlush(publishMessage);
                 }
                 if (respQoS == MqttQoS.AT_LEAST_ONCE) {
                     int messageId = grozaMessageIdService.getNextMessageId();
@@ -125,11 +120,7 @@ public class Publish {
                     DupPublishMessageStore dupPublishMessageStore = new DupPublishMessageStore().setClientId(subscribeStore.getClientId())
                             .setTopic(topic).setMqttQoS(respQoS.value()).setMessageBytes(messageBytes).setMessageId(messageId);
                     grozaDupPublishMessageStoreService.put(subscribeStore.getClientId(), dupPublishMessageStore);
-                    ChannelId channelId = channelIdMap.get(grozaSessionStoreService.get(subscribeStore.getClientId()).getChannelId());
-                    if(channelId!=null) {
-                        Channel channel = channelGroup.find(channelId);
-                        if (channel != null) channel.writeAndFlush(publishMessage);
-                    }
+                    grozaSessionStoreService.get(subscribeStore.getClientId()).getChannel().writeAndFlush(publishMessage);
                 }
                 if (respQoS == MqttQoS.EXACTLY_ONCE) {
                     int messageId = grozaMessageIdService.getNextMessageId();
@@ -140,11 +131,7 @@ public class Publish {
                     DupPublishMessageStore dupPublishMessageStore = new DupPublishMessageStore().setClientId(subscribeStore.getClientId())
                             .setTopic(topic).setMqttQoS(respQoS.value()).setMessageBytes(messageBytes).setMessageId(messageId);
                     grozaDupPublishMessageStoreService.put(subscribeStore.getClientId(), dupPublishMessageStore);
-                    ChannelId channelId = channelIdMap.get(grozaSessionStoreService.get(subscribeStore.getClientId()).getChannelId());
-                    if(channelId!=null) {
-                        Channel channel = channelGroup.find(channelId);
-                        if (channel != null) channel.writeAndFlush(publishMessage);
-                    }
+                    grozaSessionStoreService.get(subscribeStore.getClientId()).getChannel().writeAndFlush(publishMessage);
                 }
             }
         });

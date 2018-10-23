@@ -11,25 +11,20 @@ import com.sanshengshui.iot.common.session.SessionStore;
 import com.sanshengshui.iot.common.subscribe.GrozaSubscribeStoreService;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelId;
-import io.netty.channel.group.ChannelGroup;
 import io.netty.handler.codec.mqtt.*;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.AttributeKey;
 import io.netty.util.CharsetUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author james
  * @date 2018年10月21日 10:31
  */
+@Slf4j
 public class Connect {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Connect.class);
 
     private GrozaAuthService grozaAuthService;
 
@@ -41,25 +36,17 @@ public class Connect {
 
     private GrozaSubscribeStoreService grozaSubscribeStoreService;
 
-    private ChannelGroup channelGroup;
-
-    private Map<String, ChannelId> channelIdMap;
-
 
     public Connect(GrozaAuthService grozaAuthService,
                    GrozaSessionStoreService grozaSessionStoreService,
                    GrozaDupPublishMessageStoreService grozaDupPublishMessageStoreService,
                    GrozaDupPubRelMessageStoreService grozaDupPubRelMessageStoreService,
-                   GrozaSubscribeStoreService grozaSubscribeStoreService,
-                   ChannelGroup channelGroup,
-                   Map<String, ChannelId> channelIdMap){
+                   GrozaSubscribeStoreService grozaSubscribeStoreService){
         this.grozaAuthService = grozaAuthService;
         this.grozaSessionStoreService = grozaSessionStoreService;
         this.grozaDupPublishMessageStoreService = grozaDupPublishMessageStoreService;
         this.grozaDupPubRelMessageStoreService = grozaDupPubRelMessageStoreService;
         this.grozaSubscribeStoreService = grozaSubscribeStoreService;
-        this.channelGroup = channelGroup;
-        this.channelIdMap = channelIdMap;
     }
 
     public void processConnect(Channel channel, MqttConnectMessage msg){
@@ -109,6 +96,7 @@ public class Connect {
         // 如果会话中已存储这个新连接的clientId, 就关闭之前该clientId的连接
         if (grozaSessionStoreService.containsKey(msg.payload().clientIdentifier())){
             SessionStore sessionStore = grozaSessionStoreService.get(msg.payload().clientIdentifier());
+            Channel previous = sessionStore.getChannel();
             Boolean cleanSession = sessionStore.isCleanSession();
             if (cleanSession){
                 grozaSessionStoreService.remove(msg.payload().clientIdentifier());
@@ -116,26 +104,17 @@ public class Connect {
                 grozaDupPublishMessageStoreService.removeByClient(msg.payload().clientIdentifier());
                 grozaDupPubRelMessageStoreService.removeByClient(msg.payload().clientIdentifier());
             }
-            try {
-                ChannelId channelId = channelIdMap.get(sessionStore.getChannelId());
-                if (channelId != null){
-                    Channel previous = channelGroup.find(channelId);
-                    if (previous != null){
-                        previous.close();
-                    }
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+            previous.close();
         }
         //处理遗嘱信息
-        SessionStore sessionStore = new SessionStore(msg.payload().clientIdentifier(),channel.id().asLongText(),msg.variableHeader().isCleanSession());
+        SessionStore sessionStore = new SessionStore(msg.payload().clientIdentifier(), channel, msg.variableHeader().isCleanSession(), null);
         if (msg.variableHeader().isWillFlag()){
             MqttPublishMessage willMessage = (MqttPublishMessage) MqttMessageFactory.newMessage(
                     new MqttFixedHeader(MqttMessageType.PUBLISH,false, MqttQoS.valueOf(msg.variableHeader().willQos()),msg.variableHeader().isWillRetain(),0),
                     new MqttPublishVariableHeader(msg.payload().willTopic(),0),
                     Unpooled.buffer().writeBytes(msg.payload().willMessageInBytes())
             );
+            sessionStore.setWillMessage(willMessage);
         }
         //处理连接心跳包
         if (msg.variableHeader().keepAliveTimeSeconds() > 0){
@@ -155,7 +134,7 @@ public class Connect {
                 null
         );
         channel.writeAndFlush(okResp);
-        LOGGER.debug("CONNECT - clientId: {}, cleanSession: {}", msg.payload().clientIdentifier(), msg.variableHeader().isCleanSession());
+        log.info("CONNECT - clientId: {}, cleanSession: {}", msg.payload().clientIdentifier(), msg.variableHeader().isCleanSession());
         // 如果cleanSession为0, 需要重发同一clientId存储的未完成的QoS1和QoS2的DUP消息
         if (!msg.variableHeader().isCleanSession()){
             List<DupPublishMessageStore> dupPublishMessageStoreList = grozaDupPublishMessageStoreService.get(msg.payload().clientIdentifier());

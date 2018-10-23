@@ -8,15 +8,14 @@ import com.sanshengshui.iot.common.subscribe.GrozaSubscribeStoreService;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.MqttMessage;
 import io.netty.util.AttributeKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author james
  * @DISCONNECT 连接处理
  */
+@Slf4j
 public class DisConnect {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DisConnect.class);
 
     private GrozaSessionStoreService grozaSessionStoreService;
 
@@ -44,7 +43,7 @@ public class DisConnect {
             grozaDupPublishMessageStoreService.removeByClient(clientId);
             grozaDupPubRelMessageStoreService.removeByClient(clientId);
         }
-        LOGGER.debug("DISCONNECT - clientId: {}, cleanSession: {}", clientId, sessionStore.isCleanSession());
+        log.info("DISCONNECT - clientId: {}, cleanSession: {}", clientId, sessionStore.isCleanSession());
         grozaSessionStoreService.remove(clientId);
         channel.close();
     }

@@ -1,5 +1,7 @@
 package com.sanshengshui.iot.common.session;
 
+
+import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.MqttPublishMessage;
 
 import java.io.Serializable;
@@ -9,41 +11,56 @@ import java.io.Serializable;
  * @author 穆书伟
  */
 public class SessionStore implements Serializable {
-    private static final long serialVersionUID = -1L;
+    private static final long serialVersionUID = 5209539791996944490L;
+
     private String clientId;
-    private String channelId;
+
+    private Channel channel;
+
     private boolean cleanSession;
 
-    public SessionStore(String clientId, String channelId, boolean cleanSession) {
-        this.clientId = clientId;
-        this.channelId = channelId;
-        this.cleanSession = cleanSession;
-    }
-    public SessionStore(){
+    private MqttPublishMessage willMessage;
 
+    public SessionStore(String clientId, Channel channel, boolean cleanSession, MqttPublishMessage willMessage) {
+        this.clientId = clientId;
+        this.channel = channel;
+        this.cleanSession = cleanSession;
+        this.willMessage = willMessage;
     }
 
     public String getClientId() {
         return clientId;
     }
 
-    public void setClientId(String clientId) {
+    public SessionStore setClientId(String clientId) {
         this.clientId = clientId;
+        return this;
     }
 
-    public String getChannelId() {
-        return channelId;
+    public Channel getChannel() {
+        return channel;
     }
 
-    public void setChannelId(String channelId) {
-        this.channelId = channelId;
+    public SessionStore setChannel(Channel channel) {
+        this.channel = channel;
+        return this;
     }
 
     public boolean isCleanSession() {
         return cleanSession;
     }
 
-    public void setCleanSession(boolean cleanSession) {
+    public SessionStore setCleanSession(boolean cleanSession) {
         this.cleanSession = cleanSession;
+        return this;
+    }
+
+    public MqttPublishMessage getWillMessage() {
+        return willMessage;
+    }
+
+    public SessionStore setWillMessage(MqttPublishMessage willMessage) {
+        this.willMessage = willMessage;
+        return this;
     }
 }

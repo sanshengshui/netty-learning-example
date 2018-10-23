@@ -27,18 +27,18 @@ public class MqttTests {
     /**
      * 会话存储测试
      */
-    @Test
-    public void GrozaSessionStoreTest(){
-
-        SessionStore sessionStore = new SessionStore();
-        sessionStore.setChannelId("20181018163127");
-        sessionStore.setCleanSession(true);
-        sessionStore.setClientId("111");
-        redisCacheTemplate.opsForValue().set(CACHE_SES + "20181018163127",sessionStore);
-        final SessionStore sessionStore1 = (SessionStore) redisCacheTemplate.opsForValue().get(CACHE_SES + "20181018163127");
-        log.info("[对象缓存结果] - [{}]", sessionStore1.toString());
-
-    }
+//    @Test
+//    public void GrozaSessionStoreTest(){
+//
+//        SessionStore sessionStore = new SessionStore();
+//        sessionStore.setChannelId("20181018163127");
+//        sessionStore.setCleanSession(true);
+//        sessionStore.setClientId("111");
+//        redisCacheTemplate.opsForValue().set(CACHE_SES + "20181018163127",sessionStore);
+//        final SessionStore sessionStore1 = (SessionStore) redisCacheTemplate.opsForValue().get(CACHE_SES + "20181018163127");
+//        log.info("[对象缓存结果] - [{}]", sessionStore1.toString());
+//
+//    }
 
     @Test
     public void GrozaDupPublishMessageStoreTest(){
