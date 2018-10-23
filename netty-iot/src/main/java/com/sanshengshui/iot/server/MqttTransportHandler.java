@@ -1,13 +1,22 @@
 package com.sanshengshui.iot.server;
 
+import com.sanshengshui.iot.common.session.SessionStore;
 import com.sanshengshui.iot.protocol.ProtocolProcess;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.mqtt.*;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
+
 /**
+ * @author james
+ * @date 2018年10月23日
  * 消息处理
  */
 @Slf4j
@@ -96,11 +105,32 @@ public class MqttTransportHandler extends SimpleChannelInboundHandler<MqttMessag
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        super.exceptionCaught(ctx, cause);
+        if (cause instanceof IOException) {
+            // 远程主机强迫关闭了一个现有的连接的异常
+            ctx.close();
+        } else {
+            super.exceptionCaught(ctx, cause);
+        }
     }
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-        super.userEventTriggered(ctx, evt);
+        if (evt instanceof IdleStateEvent) {
+            IdleStateEvent idleStateEvent = (IdleStateEvent) evt;
+            if (idleStateEvent.state() == IdleState.ALL_IDLE) {
+                Channel channel = ctx.channel();
+                String clientId = (String) channel.attr(AttributeKey.valueOf("clientId")).get();
+                // 发送遗嘱消息
+                if (this.protocolProcess.getGrozaSessionStoreService().containsKey(clientId)) {
+                    SessionStore sessionStore = this.protocolProcess.getGrozaSessionStoreService().get(clientId);
+                    if (sessionStore.getWillMessage() != null) {
+                        this.protocolProcess.publish().processPublish(ctx.channel(), sessionStore.getWillMessage());
+                    }
+                }
+                ctx.close();
+            }
+        } else {
+            super.userEventTriggered(ctx, evt);
+        }
     }
 }
