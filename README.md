@@ -1,6 +1,5 @@
-# let-netty-easy [![知识共享协议(CC协议)](https://img.shields.io/badge/License-Creative%20Commons-DC3D24.svg) ![Attribution-NonCommercial-ShareAlike CC BY-NC-SA](LICENSE.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)
-
-[![Join the chat at https://gitter.im/sanshengshui/](https://badges.gitter.im/oldratlee/translations.svg)](https://gitter.im/oldratlee/translations?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# translations ![知识共享协议(CC协议)](https://img.shields.io/badge/License-Creative%20Commons-DC3D24.svg) ![](/home/james/IdeaProjects/netty-learning-example/pic/LICENSE.png)
+[![Join the chat at https://gitter.im/sanshengshui/](https://badges.gitter.im/sanshengshui/netty-learning-example.svg)](https://gitter.im/sanshengshui/netty-learning-example?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![GitHub stars](https://img.shields.io/github/stars/sanshengshui/netty-learning-example.svg?style=social&label=Star)](https://github.com/sanshengshui/netty-learning-example/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/sanshengshui/netty-learning-example.svg?style=social&label=Fork)](https://github.com/sanshengshui/netty-learning-example/fork)
 [![GitHub watchers](https://img.shields.io/github/watchers/sanshengshui/netty-learning-example.svg?style=social&label=Watch)](https://github.com/sanshengshui/netty-learning-example/watchers)
