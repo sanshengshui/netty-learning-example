@@ -28,7 +28,6 @@
 
 ## a.『 基础 - 入门篇 』
 
-![netty-helloworld](pic/netty-helloworld.png)
 
 - :ok_hand: : netty-helloworld  <br>
   [《netty 之 telnet HelloWorld 详解》](https://www.cnblogs.com/sanshengshui/p/9726306.html)<br>
@@ -37,17 +36,14 @@
 
 ## b. 『 基础 - 通讯协议篇 』
 
-![netty-http](pic/netty-http.png)
 
 - 👌 :netty-http<br>
   [《netty 之 高性能http服务器 详解》](https://www.cnblogs.com/sanshengshui/p/9774746.html)<br>
 
-  ![](pic/netty-springboot-protobuf.png)
 
 - 👌 netty-springboot-protobuf <br>
   [《netty 之 netty整合springboot并使用protobuf进行传输》](https://www.cnblogs.com/sanshengshui/p/9741655.html)<br>
 
-  ![mqtt](pic/mqtt.png)
 
 -  :memo: netty-mqtt
 
