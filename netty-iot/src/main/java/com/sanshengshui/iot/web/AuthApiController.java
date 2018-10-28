@@ -18,7 +18,8 @@ import java.security.interfaces.RSAPrivateKey;
 @RestController
 @RequestMapping("/groza/v1")
 @Slf4j
-public class AuthApiController {
+public class
+AuthApiController {
 
     @RequestMapping(value = "/{username}/auth",method = RequestMethod.GET,produces = "application/json")
     public String getPwd(@PathVariable("username") String username){
