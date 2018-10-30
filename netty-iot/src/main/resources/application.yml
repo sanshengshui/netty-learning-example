@@ -10,6 +10,29 @@ spring:
         max-idle: 8
         max-wait: -1ms
         max-active: 8
+  kafka:
+    #============== kafka ===================
+    # 指定kafka 代理地址，可以多个
+    bootstrap-servers: 127.0.0.1:9092
+    #=============== provider  =======================
+    producer:
+      retries: 0
+      # 每次批量发送消息的数量
+      batch-size: 16384
+      buffer-memory: 33554432
+      # 指定消息key和消息体的编解码方式
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    #=============== consumer  =======================
+    # 指定默认消费者group id
+    consumer:
+      group-id: test-consumer-group
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      # 指定消息key和消息体的编解码方式
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 # MQTT server parameters
 mqtt:
   # Enable/disable mqtt transport protocol.
