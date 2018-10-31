@@ -4,6 +4,7 @@ import com.sanshengshui.iot.common.message.*;
 import com.sanshengshui.iot.common.session.GrozaSessionStoreService;
 import com.sanshengshui.iot.common.subscribe.GrozaSubscribeStoreService;
 import com.sanshengshui.iot.common.subscribe.SubscribeStore;
+import com.sanshengshui.iot.internal.InternalMessage;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.*;
@@ -25,17 +26,21 @@ public class Publish {
 
     private GrozaDupPublishMessageStoreService grozaDupPublishMessageStoreService;
 
+    private GrozaKafkaService grozaKafkaService;
+
 
     public Publish(GrozaSessionStoreService grozaSessionStoreService,
                    GrozaSubscribeStoreService grozaSubscribeStoreService,
                    GrozaMessageIdService grozaMessageIdService,
                    GrozaRetainMessageStoreService grozaRetainMessageStoreService,
-                   GrozaDupPublishMessageStoreService grozaDupPublishMessageStoreService){
+                   GrozaDupPublishMessageStoreService grozaDupPublishMessageStoreService,
+                   GrozaKafkaService grozaKafkaService){
         this.grozaSessionStoreService = grozaSessionStoreService;
         this.grozaSubscribeStoreService = grozaSubscribeStoreService;
         this.grozaMessageIdService = grozaMessageIdService;
         this.grozaRetainMessageStoreService = grozaRetainMessageStoreService;
         this.grozaDupPublishMessageStoreService = grozaDupPublishMessageStoreService;
+        this.grozaKafkaService = grozaKafkaService;
     }
 
     public void processPublish(Channel channel, MqttPublishMessage msg) {
@@ -44,12 +49,28 @@ public class Publish {
         if (msg.fixedHeader().qosLevel() == MqttQoS.AT_MOST_ONCE) {
             byte[] messageBytes = new byte[msg.payload().readableBytes()];
             msg.payload().getBytes(msg.payload().readerIndex(), messageBytes);
+            InternalMessage internalMessage = new InternalMessage()
+                    .setTopic(msg.variableHeader().topicName())
+                    .setMqttQoS(msg.fixedHeader().qosLevel().value())
+                    .setMessageBytes(messageBytes)
+                    .setDup(false)
+                    .setRetain(false)
+                    .setClientId(clientId);
+            grozaKafkaService.send(internalMessage);
             this.sendPublishMessage(msg.variableHeader().topicName(), msg.fixedHeader().qosLevel(), messageBytes, false, false);
         }
         // QoS=1
         if (msg.fixedHeader().qosLevel() == MqttQoS.AT_LEAST_ONCE) {
             byte[] messageBytes = new byte[msg.payload().readableBytes()];
             msg.payload().getBytes(msg.payload().readerIndex(), messageBytes);
+            InternalMessage internalMessage = new InternalMessage()
+                    .setTopic(msg.variableHeader().topicName())
+                    .setMqttQoS(msg.fixedHeader().qosLevel().value())
+                    .setMessageBytes(messageBytes)
+                    .setDup(false)
+                    .setRetain(false)
+                    .setClientId(clientId);
+            grozaKafkaService.send(internalMessage);
             this.sendPublishMessage(msg.variableHeader().topicName(), msg.fixedHeader().qosLevel(), messageBytes, false, false);
             this.sendPubAckMessage(channel, msg.variableHeader().packetId());
         }
@@ -57,6 +78,14 @@ public class Publish {
         if (msg.fixedHeader().qosLevel() == MqttQoS.EXACTLY_ONCE) {
             byte[] messageBytes = new byte[msg.payload().readableBytes()];
             msg.payload().getBytes(msg.payload().readerIndex(), messageBytes);
+            InternalMessage internalMessage = new InternalMessage()
+                    .setTopic(msg.variableHeader().topicName())
+                    .setMqttQoS(msg.fixedHeader().qosLevel().value())
+                    .setMessageBytes(messageBytes)
+                    .setDup(false)
+                    .setRetain(false)
+                    .setClientId(clientId);
+            grozaKafkaService.send(internalMessage);
             this.sendPublishMessage(msg.variableHeader().topicName(), msg.fixedHeader().qosLevel(), messageBytes, false, false);
             this.sendPubRecMessage(channel, msg.variableHeader().packetId());
         }

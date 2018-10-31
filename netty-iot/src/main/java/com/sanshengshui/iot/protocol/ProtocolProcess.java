@@ -1,18 +1,11 @@
 package com.sanshengshui.iot.protocol;
 
 import com.sanshengshui.iot.common.auth.GrozaAuthService;
-import com.sanshengshui.iot.common.message.GrozaDupPubRelMessageStoreService;
-import com.sanshengshui.iot.common.message.GrozaDupPublishMessageStoreService;
-import com.sanshengshui.iot.common.message.GrozaMessageIdService;
-import com.sanshengshui.iot.common.message.GrozaRetainMessageStoreService;
+import com.sanshengshui.iot.common.message.*;
 import com.sanshengshui.iot.common.session.GrozaSessionStoreService;
 import com.sanshengshui.iot.common.subscribe.GrozaSubscribeStoreService;
-import io.netty.channel.ChannelId;
-import io.netty.channel.group.ChannelGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 /**
  * 协议处理
@@ -33,6 +26,8 @@ public class ProtocolProcess {
     private GrozaDupPublishMessageStoreService grozaDupPublishMessageStoreService;
     @Autowired
     private GrozaDupPubRelMessageStoreService grozaDupPubRelMessageStoreService;
+    @Autowired
+    private GrozaKafkaService kafkaService;
 
     private Connect connect;
 
@@ -75,7 +70,7 @@ public class ProtocolProcess {
 
     public Publish publish() {
         if (publish == null) {
-            publish = new Publish(grozaSessionStoreService, grozaSubscribeStoreService, grozaMessageIdService, grozaRetainMessageStoreService, grozaDupPublishMessageStoreService);
+            publish = new Publish(grozaSessionStoreService, grozaSubscribeStoreService, grozaMessageIdService, grozaRetainMessageStoreService, grozaDupPublishMessageStoreService,kafkaService);
         }
         return publish;
     }
