@@ -24,6 +24,7 @@
         <java.version>1.8</java.version>
         <netty-all.version>4.1.29.Final</netty-all.version>
         <hutool.version>4.1.6</hutool.version>
+        <docker.image.prefix>groza</docker.image.prefix>
     </properties>
 
     <dependencies>
