@@ -13,6 +13,7 @@ import java.io.Serializable;
 
 /**
  * @author james
+ * Redis缓存配置类
  */
 @Configuration
 @AutoConfigureAfter(RedisAutoConfiguration.class)

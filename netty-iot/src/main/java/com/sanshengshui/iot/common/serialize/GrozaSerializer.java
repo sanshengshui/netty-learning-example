@@ -6,6 +6,10 @@ import com.sanshengshui.iot.common.session.SessionStore;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 
+/**
+ * @author james
+ * 继承RedisTemplate序列化接口,自定义序列化类
+ */
 public class GrozaSerializer implements RedisSerializer<Object> {
     @Override
     public byte[] serialize(Object o) throws SerializationException {

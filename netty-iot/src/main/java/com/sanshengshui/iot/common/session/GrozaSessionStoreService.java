@@ -1,5 +1,9 @@
 package com.sanshengshui.iot.common.session;
 
+/**
+ * @author james
+ * 会话存储接口类
+ */
 public interface GrozaSessionStoreService {
     /**
      * 存储会话

@@ -7,6 +7,7 @@ package com.sanshengshui.iot.common.message;
 import java.io.Serializable;
 
 /**
+ * @author james
  * Retain标志消息存储
  */
 public class RetainMessageStore implements Serializable {

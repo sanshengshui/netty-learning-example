@@ -2,6 +2,10 @@ package com.sanshengshui.iot.common.subscribe;
 
 import java.io.Serializable;
 
+/**
+ * @author james
+ * 订阅存储实体类
+ */
 public class SubscribeStore implements Serializable {
     private static final long serialVersionUID = 1276156087085594264L;
 

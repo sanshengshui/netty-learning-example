@@ -3,6 +3,7 @@ package com.sanshengshui.iot.common.subscribe;
 import java.util.List;
 
 /**
+ * @author james
  * 订阅存储服务接口
  */
 public interface GrozaSubscribeStoreService {
