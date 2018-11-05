@@ -10,6 +10,10 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * @author james
+ * 会话存储接口类
+ */
 @Service
 public class GrozaSessionStoreServiceImpl implements GrozaSessionStoreService {
 
