@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author james
- * @date 2018年10月21日09:08
+ * @date 2018年10月21日19:08
  * PUBCOMP连接处理
  */
 @Slf4j
