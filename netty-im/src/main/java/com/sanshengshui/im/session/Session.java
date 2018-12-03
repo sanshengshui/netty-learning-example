@@ -1,10 +1,9 @@
 package com.sanshengshui.im.session;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+
 public class Session {
     // 用户唯一性标识
     private String userId;
