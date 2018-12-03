@@ -1,9 +1,10 @@
 package com.sanshengshui.im.codec;
 
+import com.sanshengshui.im.protocol.PacketCodec;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
-import the.flash.protocol.PacketCodec;
+
 
 import java.util.List;
 

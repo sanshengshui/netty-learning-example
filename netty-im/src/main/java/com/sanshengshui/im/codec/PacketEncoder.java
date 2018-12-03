@@ -1,10 +1,11 @@
 package com.sanshengshui.im.codec;
 
+import com.sanshengshui.im.protocol.Packet;
+import com.sanshengshui.im.protocol.PacketCodec;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
-import the.flash.protocol.Packet;
-import the.flash.protocol.PacketCodec;
+
 
 public class PacketEncoder extends MessageToByteEncoder<Packet> {
 
