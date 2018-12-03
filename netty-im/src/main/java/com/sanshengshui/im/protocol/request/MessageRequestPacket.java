@@ -8,6 +8,7 @@ import static com.sanshengshui.im.protocol.command.Command.MESSAGE_REQUEST;
 
 
 @Data
+@NoArgsConstructor
 public class MessageRequestPacket extends Packet {
     private String toUserId;
     private String message;
