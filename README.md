@@ -4,6 +4,7 @@
 [![GitHub watchers](https://img.shields.io/github/watchers/sanshengshui/netty-learning-example.svg?style=social&label=Watch)](https://github.com/sanshengshui/netty-learning-example/watchers)
 
 ## 前言:
+**You built it,You run it!**
 
 > **尚未完成，持续更新中...!**
 
@@ -59,7 +60,7 @@
 
 ## d. 『 高级 - 高级应用篇 』
 
-- :wrench:: netty-IM<br>
+- :memo: : netty-IM<br>
 
   [《netty之用netty实现IM功能》](https://github.com/sanshengshui/netty-learning-example/tree/master/netty-im)<br>
 
@@ -69,7 +70,7 @@
 
   1. [《简述RPC实现原理》](https://www.cnblogs.com/sanshengshui/p/9769517.html)<br>
 
-- :wrench: :netty-IOT
+- 👌 :netty-IOT
 
   1. [《IOT市场与高性能服务器实现之路》](https://www.cnblogs.com/sanshengshui/p/9797352.html)<br>
   2. [《Netty实现高性能IOT服务器(Groza)之手撕MQTT协议篇上》](https://www.cnblogs.com/sanshengshui/p/9826009.html)<br>
@@ -86,11 +87,3 @@
   - [x] [Gatling简单测试SpringBoot工程](https://www.cnblogs.com/sanshengshui/p/9750478.html)
 
 
-
-------
-
-知识星球,欢迎朋友加入,一起学习!
-
-**You built it,You run it!**
-
-![](pic/545937618.jpg)
