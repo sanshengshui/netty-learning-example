@@ -73,8 +73,14 @@
 - 👌 :netty-IOT
 
   1. [《IOT市场与高性能服务器实现之路》](https://www.cnblogs.com/sanshengshui/p/9797352.html)<br>
+
   2. [《Netty实现高性能IOT服务器(Groza)之手撕MQTT协议篇上》](https://www.cnblogs.com/sanshengshui/p/9826009.html)<br>
+
   3. [《Netty实现高性能IOT服务器(Groza)之精尽代码篇中》](https://www.cnblogs.com/sanshengshui/p/9859030.html)
+
+     ------
+
+     拓展实践: [软件工程师树莓派获取室内温湿度的坎坷之旅](https://www.cnblogs.com/sanshengshui/p/9942963.html)
 
 
 ## e. 『 高级 - Netty特性,源码篇 』
