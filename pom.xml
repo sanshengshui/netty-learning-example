@@ -31,6 +31,8 @@
         <module>netty-iot</module>
         <!--netty之jpa持久化数据至MySql-->
         <module>netty-jpa-mysql</module>
+        <!--netty之mybaits持久化数据之mongodb中-->
+        <module>netty-mybatis-mongodb</module>
     </modules>
 
 
