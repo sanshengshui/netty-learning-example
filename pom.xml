@@ -13,8 +13,9 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <!-- 基础 - 入门篇 -->
+
     <modules>
+        <!-- 基础 - 入门篇 start-->
         <!-- netty 之 helloworld详解-->
         <module>netty-helloworld</module>
         <!-- netty 之 实现高性能http服务器-->
@@ -22,17 +23,29 @@
         <!-- netty 之 netty整合springboot并使用protobuf进行数据传输-->
         <module>netty-springboot-protobuf</module>
         <!--netty之 netty 整合 Kafka producer-->
+        <!-- 基础 - 入门篇 end-->
+
+        <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+        <!-- 中级 - 数据流传输篇 start-->
         <module>netty-kafka</module>
+        <!--netty之jpa持久化数据至MySql-->
+        <module>netty-jpa-mysql</module>
+        <!--netty之mybaits持久化数据之mongodb中-->
+        <module>netty-mybatis-mongodb</module>
+        <!-- 中级 - 数据流传输篇 start-->
+
+        <!--+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+
+        <!-- 高级 - 高级应用篇 start-->
         <!--netty之 基于netty通讯实现rpc-->
         <module>netty-rpc</module>
         <!--netty之用netty实现IM功能(物联网,推送皆可！)-->
         <module>netty-im</module>
         <!--netty之netty实现IOT服务器-->
         <module>netty-iot</module>
-        <!--netty之jpa持久化数据至MySql-->
-        <module>netty-jpa-mysql</module>
-        <!--netty之mybaits持久化数据之mongodb中-->
-        <module>netty-mybatis-mongodb</module>
+        <!-- 高级 - 高级应用篇 end-->
+
     </modules>
 
 
