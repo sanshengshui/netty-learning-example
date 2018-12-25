@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>let_netty_easy</artifactId>
+        <groupId>com.sanshengshui</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <name>netty :: Jpa :: MySQL</name>
+    <groupId>com.sanshengshui</groupId>
+    <artifactId>netty-jpa-mysql</artifactId>
+    <description>netty之jpa持久化数据至MySql</description>
+
+
+</project>

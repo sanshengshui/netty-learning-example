@@ -29,6 +29,8 @@
         <module>netty-im</module>
         <!--netty之netty实现IOT服务器-->
         <module>netty-iot</module>
+        <!--netty之jpa持久化数据至MySql-->
+        <module>netty-jpa-mysql</module>
     </modules>
 
 
