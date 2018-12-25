@@ -54,7 +54,15 @@
 
 ## c. 『 中级 - 数据流传输篇 』
 
-- :wrench::​ netty-kafka
+- :wrench:: netty-jpa-mysql
+
+  [《netty之jpa持久化数据至MySql》](https://github.com/sanshengshui/netty-learning-example/tree/master/netty-jpa-mysql)<br>
+
+- :wrench:: netty-mybatis-mongodb
+
+  [《netty之mybaits持久化数据之mongodb》](https://github.com/sanshengshui/netty-learning-example/tree/master/netty-mybatis-mongodb)<br>
+
+- :wrench:: netty-kafka
 
   [《netty 之 netty 整合 Kafka producer》](https://github.com/sanshengshui/netty-learning-example/tree/master/netty-kafka)<br>
 
