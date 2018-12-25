@@ -1,0 +1,12 @@
+database:
+  entities:
+    type: sql # sql OR mongodb
+  ts:
+     type: sql # sql oR mongodb
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/groza?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: james
