@@ -8,4 +8,6 @@ import com.sanshengshui.persistence.domain.Device;
  * @date 18-12-25 下午4:41
  */
 public interface DeviceDao extends Dao<Device> {
+
+    Device save(Device device);
 }
