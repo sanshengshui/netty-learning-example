@@ -2,10 +2,10 @@ package com.sanshengshui.persistence.entity.sql;
 
 import com.sanshengshui.persistence.entity.ModelConstants;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -17,6 +17,7 @@ import javax.persistence.Table;
 @Table(name = ModelConstants.DEVICE_COLUMN_FAMILY_NAME)
 public class DeviceEntity {
 
+    @Id
     @Column(name = ModelConstants.ID_PROPERTY)
     private Long id;
 
