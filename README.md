@@ -68,17 +68,19 @@
 
 ## d. 『 高级 - 高级应用篇 』
 
--  👌 :netty-IM<br>
+- 👌 :netty-IM<br>
 
-  :four_leaf_clover:微信从 2011 年 1 月 21 日诞生至今，
+  ​	:four_leaf_clover:微信从 2011 年 1 月 21 日诞生至今，
 
-  已经成为国内数亿用户必不可少的即时通信工具，是男女老少手机中必备的顶级 App。Netty 是一个异步基于事件驱动的高性能网络通信框架，在互联网中间件领域网络通信层是无可争议的最强王者，两者强强联合又会擦出什么样的火花？下面给出一个优秀的小册,让大家快速掌握Netty!​ ​小册​作者​ ​闪电​侠​ [​G​i​t​H​u​b](https://github.com/lightningMan):four_leaf_clover:
+  ​	已经成为国内数亿用户必不可少的即时通信工具，是男女老少手机中必备的顶级 App。Netty 是一个异步基于事件驱动的高性能网络通信框架，在互联网中间件领域网络通信层是无可争议的最强王者，两者强强联合又会擦出什么样的火花？下面给出一个优秀的小册,让大家快速掌握Netty! ​小册​作者​ ​闪电​侠​ [​G​i​t​H​u​b](https://github.com/lightningMan):four_leaf_clover:
 
   > 小册作者简介:某大型互联网公司基础架构部技术专家，主要做后台服务器的开发。精通 Netty，Spring，MyBatis，熟读互联网公司常见开发框架源码。负责公司各类长连项目的开发与维护，有千万级别实时在线连接，百亿吞吐的长连通信经验。
 
   
 
-  [Netty 入门与实战：仿写微信 IM 即时通讯系统](https://juejin.im/book/5b4bc28bf265da0f60130116)
+  ​    [Netty 入门与实战：仿写微信 IM 即时通讯系统](https://juejin.im/book/5b4bc28bf265da0f60130116)
+
+  
 
 - 👌 :netty-Rpc<br>
 
@@ -96,13 +98,17 @@
   6. [《蚂蚁金服通信框架SOFABolt解析 | 连接管理剖析》](https://mp.weixin.qq.com/s?__biz=MzUzMzU5Mjc1Nw==&mid=2247484457&idx=1&sn=151334a84ace245a04189735743c154a&chksm=faa0ebf3cdd762e566e1736f4dd958c23f1d48bfcd33ab7064715441426d9bc9c492eadb1b61&mpshare=1&scene=1&srcid=0510QYXE7uD9M0xonldbMIqK&pass_ticket=lR9I%2BTYIxmASKZM%2F324MFsv%2FPM9jQWUssfKtnSeM%2B5YosiCJ%2B%2BEdZYUXkdDyeWqL#rd)
   7. [《蚂蚁金服通信框架SOFABolt解析|超时控制机制及心跳机制》](https://mp.weixin.qq.com/s?__biz=MzUzMzU5Mjc1Nw==&mid=2247484545&idx=1&sn=bf386f40d33215d79943eaeffa91daf6&chksm=faa0eb5bcdd7624d1d179a514767a95692dd244a44339acccdccdfd38f44c5479a0ca708e744&mpshare=1&scene=1&srcid=0510JAmEphYy3r81Kj4Bb9ue&pass_ticket=lR9I%2BTYIxmASKZM%2F324MFsv%2FPM9jQWUssfKtnSeM%2B5YosiCJ%2B%2BEdZYUXkdDyeWqL#rd)
 
-- 👌 :netty-IOT
+  
+
+  👌 :netty-IOT
+
+  ​	:ear_of_rice:随着技术的成熟，制造连接设备的成本正在下降。随之而来的是更广泛的物联网设备，从工业和企业应用到消费者家庭自动化（例如恒温器和智能空气过滤器）和智能汽车 - 甚至是连接内衣和牙线等眉毛般的“创新” 。连接和驱动这些设备的网络和技术（包括软件）正变得越来越强大。换句话说，就是能够实现事物互动的东西。:ear_of_rice:
 
   1. [《IOT市场与高性能服务器实现之路》](https://www.cnblogs.com/sanshengshui/p/9797352.html)<br>
 
   2. [《Netty实现高性能IOT服务器(Groza)之手撕MQTT协议篇上》](https://www.cnblogs.com/sanshengshui/p/9826009.html)<br>
 
-  3. [《Netty实现高性能IOT服务器(Groza)之精尽代码篇中》](https://www.cnblogs.com/sanshengshui/p/9859030.html)
+  3. [《Netty实现高性能IOT服务器(Groza)之精尽代码篇下》](https://www.cnblogs.com/sanshengshui/p/9859030.html)
 
      ------
 
