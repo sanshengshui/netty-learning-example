@@ -68,11 +68,19 @@
 
 ## d. 『 高级 - 高级应用篇 』
 
-- :memo: : netty-IM<br>
+-  👌 :netty-IM<br>
 
-  [《netty之用netty实现IM功能》](https://github.com/sanshengshui/netty-learning-example/tree/master/netty-im)<br>
+  :four_leaf_clover:微信从 2011 年 1 月 21 日诞生至今，
 
-- :wrench: :netty-Rpc<br>
+  已经成为国内数亿用户必不可少的即时通信工具，是男女老少手机中必备的顶级 App。Netty 是一个异步基于事件驱动的高性能网络通信框架，在互联网中间件领域网络通信层是无可争议的最强王者，两者强强联合又会擦出什么样的火花？下面给出一个优秀的小册,让大家快速掌握Netty!​ ​小册​作者​ ​闪电​侠​ [​G​i​t​H​u​b](https://github.com/lightningMan):four_leaf_clover:
+
+  > 小册作者简介:某大型互联网公司基础架构部技术专家，主要做后台服务器的开发。精通 Netty，Spring，MyBatis，熟读互联网公司常见开发框架源码。负责公司各类长连项目的开发与维护，有千万级别实时在线连接，百亿吞吐的长连通信经验。
+
+  
+
+  [Netty 入门与实战：仿写微信 IM 即时通讯系统](https://juejin.im/book/5b4bc28bf265da0f60130116)
+
+- 👌 :netty-Rpc<br>
 
   :herb: 由于RPC的工程案例实在是太多，感觉我手写一个也没什么乐趣。
 
