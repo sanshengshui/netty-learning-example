@@ -25,8 +25,6 @@
 
 本工程致力于netty实践学习案例,是netty初学者及核心技术巩固的最佳实践
 
-
-
 ## a.『 基础 - 入门篇 』
 
 
@@ -51,16 +49,21 @@
   1. [《Netty实现高性能IOT服务器(Groza)之手撕MQTT协议篇上》](https://www.cnblogs.com/sanshengshui/p/9826009.html)
   2. [《Netty实现高性能IOT服务器(Groza)之精尽代码篇中》](https://www.cnblogs.com/sanshengshui/p/9859030.html)
 
+## c. 『 中级 - 数据传输篇 』
 
-## c. 『 中级 - 数据流传输篇 』
+Netty碰上关系型数据库:monkey:
 
 - :wrench:: netty-jpa-mysql
 
   [《netty之jpa持久化数据至MySql》](https://github.com/sanshengshui/netty-learning-example/tree/master/netty-jpa-mysql)<br>
 
+Netty邂逅非关系数据库:horse:
+
 - :wrench:: netty-mybatis-mongodb
 
   [《netty之mybaits持久化数据之mongodb》](https://github.com/sanshengshui/netty-learning-example/tree/master/netty-mybatis-mongodb)<br>
+
+Netty助力流式计算:racehorse:
 
 - :wrench:: netty-kafka
 
