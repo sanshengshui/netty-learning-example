@@ -76,12 +76,17 @@
 
   :herb: 由于RPC的工程案例实在是太多，感觉我手写一个也没什么乐趣。
 
-  所以我挑选了蚂蚁金融服务集团实现的基于Netty网络通讯框架([SOFABolt](https://github.com/alipay/sofa-bolt))对其进行源码解读，
+  所以我挑选了蚂蚁金融服务集团实现的基于Netty网络通讯框架([SOFABolt](https://github.com/alipay/sofa-bolt))源码解读文章，
 
   展示给阅读此工程的开发者。:herb:
 
   1. [《简述RPC实现原理》](https://www.cnblogs.com/sanshengshui/p/9769517.html)<br>
   2. [《蚂蚁通讯框架SOFABolt之私有通讯协议设计》](https://www.cnblogs.com/sanshengshui/p/10149217.html)
+  3. [《蚂蚁金服通讯框架SOFABolt解析 | 编解码机制》](https://mp.weixin.qq.com/s?__biz=MzUzMzU5Mjc1Nw==&mid=2247484406&idx=1&sn=da3e3364efc313d0014958f6f71aca17&chksm=faa0ec2ccdd7653a2ec0758c9339c0cee8c0380c7fe29f0c5d000e70bbb978cb39f3342a936f&mpshare=1&scene=1&srcid=0510q5Rte9Va9edQbJsPtd03&pass_ticket=lR9I%2BTYIxmASKZM%2F324MFsv%2FPM9jQWUssfKtnSeM%2B5YosiCJ%2B%2BEdZYUXkdDyeWqL#rd)
+  4. [《蚂蚁金服通讯框架SOFABolt解析 | 序列化机制(Serializer)》](https://mp.weixin.qq.com/s?__biz=MzUzMzU5Mjc1Nw==&mid=2247484425&idx=1&sn=a7162c88139e8faf25e7c321613a58be&chksm=faa0ebd3cdd762c59a02bff3f392a213452fde17b9b4317e37cab24470740bbc1adacfc12091&mpshare=1&scene=1&srcid=0510UsIkKm8Nd8ovZBzBXPXe&pass_ticket=lR9I%2BTYIxmASKZM%2F324MFsv%2FPM9jQWUssfKtnSeM%2B5YosiCJ%2B%2BEdZYUXkdDyeWqL#rd)
+  5. [《蚂蚁金服通信框架SOFABolt解析 | 协议框架解析》](https://mp.weixin.qq.com/s?__biz=MzUzMzU5Mjc1Nw==&mid=2247484442&idx=1&sn=10141f9a20199e608ce5fd7f11ee4e29&chksm=faa0ebc0cdd762d60cedbfb079444e3e6d35383f063e060947bbcb622f86db39fded94f306f4&mpshare=1&scene=1&srcid=0510gpUOmETxmQAxe1epagTl&pass_ticket=lR9I%2BTYIxmASKZM%2F324MFsv%2FPM9jQWUssfKtnSeM%2B5YosiCJ%2B%2BEdZYUXkdDyeWqL#rd)
+  6. [《蚂蚁金服通信框架SOFABolt解析 | 连接管理剖析》](https://mp.weixin.qq.com/s?__biz=MzUzMzU5Mjc1Nw==&mid=2247484457&idx=1&sn=151334a84ace245a04189735743c154a&chksm=faa0ebf3cdd762e566e1736f4dd958c23f1d48bfcd33ab7064715441426d9bc9c492eadb1b61&mpshare=1&scene=1&srcid=0510QYXE7uD9M0xonldbMIqK&pass_ticket=lR9I%2BTYIxmASKZM%2F324MFsv%2FPM9jQWUssfKtnSeM%2B5YosiCJ%2B%2BEdZYUXkdDyeWqL#rd)
+  7. [《蚂蚁金服通信框架SOFABolt解析|超时控制机制及心跳机制》](https://mp.weixin.qq.com/s?__biz=MzUzMzU5Mjc1Nw==&mid=2247484545&idx=1&sn=bf386f40d33215d79943eaeffa91daf6&chksm=faa0eb5bcdd7624d1d179a514767a95692dd244a44339acccdccdfd38f44c5479a0ca708e744&mpshare=1&scene=1&srcid=0510JAmEphYy3r81Kj4Bb9ue&pass_ticket=lR9I%2BTYIxmASKZM%2F324MFsv%2FPM9jQWUssfKtnSeM%2B5YosiCJ%2B%2BEdZYUXkdDyeWqL#rd)
 
 - 👌 :netty-IOT
 
