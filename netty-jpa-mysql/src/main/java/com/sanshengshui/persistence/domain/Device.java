@@ -11,9 +11,9 @@ public class Device {
 
     private Long id;
     private String name;
-    private String type;
+    private Double temperature;
+    private Double humidity;
     private long createdTime;
-    private String description;
 
     @Override
     public String toString() {
@@ -22,12 +22,12 @@ public class Device {
         builder.append(id);
         builder.append(", name=");
         builder.append(name);
-        builder.append(", type=");
-        builder.append(type);
+        builder.append(", temperature=");
+        builder.append(temperature);
         builder.append(", createdTime=");
         builder.append(createdTime);
-        builder.append(", description=");
-        builder.append(description);
+        builder.append(", humidity=");
+        builder.append(humidity);
         builder.append("]");
         return builder.toString();
     }
