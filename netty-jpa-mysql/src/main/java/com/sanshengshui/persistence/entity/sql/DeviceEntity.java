@@ -1,12 +1,16 @@
 package com.sanshengshui.persistence.entity.sql;
 
+import com.sanshengshui.persistence.domain.Device;
+import com.sanshengshui.persistence.entity.BaseSqlEntity;
 import com.sanshengshui.persistence.entity.ModelConstants;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 /**
  * @author james mu
@@ -14,22 +18,31 @@ import javax.persistence.Table;
  */
 @Data
 @Entity
+@EqualsAndHashCode(callSuper = true)
 @Table(name = ModelConstants.DEVICE_COLUMN_FAMILY_NAME)
-public class DeviceEntity {
+public final class DeviceEntity  extends BaseSqlEntity<Device> {
 
-    @Id
-    @Column(name = ModelConstants.ID_PROPERTY)
-    private Long id;
 
     @Column(name = ModelConstants.DEVICE_NAME_PROPERTY)
     private String name;
 
-    @Column(name = ModelConstants.DEVICE_TYPE_PROPERTY)
-    private String type;
+    @Column(name = ModelConstants.DEVICE_TEMPERATURE_PROPERTY)
+    private Double temperature;
 
     @Column(name = ModelConstants.DEVICE_TIME_PROPERTY)
     private long createdTime;
 
-    @Column(name = ModelConstants.DEVICE_DESCRIPTION_PROPERTY)
-    private String description;
+    @Column(name = ModelConstants.DEVICE_HUMIDITY_PROPERTY)
+    private Double humidity;
+
+    @Override
+    public Device toData() {
+        Device device = new Device();
+        device.setId(getId());
+        device.setCreatedTime(new Date().getTime());
+        device.setHumidity(humidity);
+        device.setTemperature(temperature);
+        device.setName(name);
+        return device;
+    }
 }
