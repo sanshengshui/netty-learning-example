@@ -30,10 +30,25 @@ public final class DeviceEntity  extends BaseSqlEntity<Device> {
     private Double temperature;
 
     @Column(name = ModelConstants.DEVICE_TIME_PROPERTY)
-    private long createdTime;
+    private Long createdTime;
 
     @Column(name = ModelConstants.DEVICE_HUMIDITY_PROPERTY)
     private Double humidity;
+
+    public DeviceEntity() {
+        super();
+    }
+
+    public DeviceEntity(Device device) {
+        if (device.getId() != null) {
+            this.setId(device.getId());
+        }
+        this.humidity = device.getHumidity();
+        this.name = device.getName();
+        this.temperature = device.getTemperature();
+        this.createdTime = device.getCreatedTime();
+    }
+
 
     @Override
     public Device toData() {
