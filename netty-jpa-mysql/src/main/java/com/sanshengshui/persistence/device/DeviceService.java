@@ -7,5 +7,6 @@ import com.sanshengshui.persistence.domain.Device;
  * @date 19-1-2 上午11:12
  */
 public interface DeviceService {
+
     Device saveDevice(Device device);
 }

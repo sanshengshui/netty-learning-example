@@ -13,7 +13,7 @@ public class Device {
     private String name;
     private Double temperature;
     private Double humidity;
-    private long createdTime;
+    private Long createdTime;
 
     @Override
     public String toString() {
