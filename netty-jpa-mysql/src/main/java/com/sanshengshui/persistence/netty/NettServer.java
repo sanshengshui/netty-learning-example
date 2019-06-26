@@ -1,5 +1,6 @@
 package com.sanshengshui.persistence.netty;
 
+import com.sanshengshui.persistence.device.DeviceService;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -14,8 +15,8 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
-import io.netty.util.ResourceLeakDetector;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -38,6 +39,9 @@ public class NettServer {
     @Value("${netty.worker_group_thread_count}")
     private Integer workerGroupThreadCount;
 
+    @Autowired
+    private DeviceService deviceService;
+
     private Channel serverChannel;
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
@@ -59,7 +63,7 @@ public class NettServer {
                         pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
                         pipeline.addLast("decoder", new StringDecoder());
                         pipeline.addLast("encoder", new StringEncoder());
-                        NettyServerHandler nettyServerHandler = new NettyServerHandler();
+                        NettyServerHandler nettyServerHandler = new NettyServerHandler(deviceService);
                         pipeline.addLast(nettyServerHandler);
                     }
                 });

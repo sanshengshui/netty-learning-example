@@ -1,5 +1,8 @@
 package com.sanshengshui.persistence.netty;
 
+import com.alibaba.fastjson.JSONObject;
+import com.sanshengshui.persistence.device.DeviceService;
+import com.sanshengshui.persistence.domain.Device;
 import io.netty.channel.*;
 
 import java.net.InetAddress;
@@ -7,6 +10,12 @@ import java.util.Date;
 
 @ChannelHandler.Sharable
 public class NettyServerHandler extends SimpleChannelInboundHandler<String> {
+
+    private final DeviceService deviceService;
+
+    public NettyServerHandler(DeviceService deviceService) {
+        this.deviceService = deviceService;
+    }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -18,27 +27,16 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String request) throws Exception {
-
-        String response;
-        boolean close = false;
-        if (request.isEmpty()) {
-            response = "Please type something.\r\n";
-        } else if ("bye".equals(request.toLowerCase())) {
-            response = "Have a good day!\r\n";
-            close = true;
-        } else {
-            response = "Did you say '" + request + "'?\r\n";
+        try {
+            JSONObject jsonObject = JSONObject.parseObject(request);
+            Device device = jsonObject.toJavaObject(Device.class);
+            deviceService.saveDevice(device);
+            ctx.write("Successfully saved!\r\n");
+        } catch (Exception e) {
+            ctx.write("error Json format!\r\n");
+            e.printStackTrace();
         }
 
-        // We do not need to write a ChannelBuffer here.
-        // We know the encoder inserted at TelnetPipelineFactory will do the conversion.
-        ChannelFuture future = ctx.write(response);
-
-        // Close the connection after sending 'Have a good day!'
-        // if the client has sent 'bye'.
-        if (close) {
-            future.addListener(ChannelFutureListener.CLOSE);
-        }
     }
 
     @Override
