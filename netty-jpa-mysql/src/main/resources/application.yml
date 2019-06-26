@@ -7,3 +7,12 @@ spring:
     url: jdbc:mysql://192.168.10.222:3306/trace?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC&nullCatalogMeansCurrent=true
     username: root
     password: test
+
+# netty server parameters
+netty:
+  # Enable/disable mqtt transport protocol.
+  enabled: true
+  bind_address: 0.0.0.0
+  bind_port: 9191
+  boss_group_thread_count: 1
+  worker_group_thread_count: 8
