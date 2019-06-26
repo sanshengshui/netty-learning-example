@@ -53,7 +53,7 @@
 
 Netty碰上关系型数据库:monkey:
 
-- :wrench:: netty-jpa-mysql
+-   :memo:netty-jpa-mysql
 
   [《netty之jpa持久化数据至MySql》](https://github.com/sanshengshui/netty-learning-example/tree/master/netty-jpa-mysql)<br>
 
