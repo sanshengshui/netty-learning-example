@@ -3,8 +3,8 @@ database:
 
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.10.222:3306/trace?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC&nullCatalogMeansCurrent=true
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/trace?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&serverTimezone=UTC&nullCatalogMeansCurrent=true
     username: root
     password: test
 
