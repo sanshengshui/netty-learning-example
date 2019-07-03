@@ -105,7 +105,7 @@ public class Publish {
 
     private void sendPublishMessage(String topic, MqttQoS mqttQoS, byte[] messageBytes, boolean retain, boolean dup) {
         List<SubscribeStore> subscribeStores = grozaSubscribeStoreService.search(topic);
-        subscribeStores.forEach(subscribeStore -> {
+        for (SubscribeStore subscribeStore : subscribeStores) {
             if (grozaSessionStoreService.containsKey(subscribeStore.getClientId())) {
                 // 订阅者收到MQTT消息的QoS级别, 最终取决于发布消息的QoS和主题订阅的QoS
                 MqttQoS respQoS = mqttQoS.value() > subscribeStore.getMqttQoS() ? MqttQoS.valueOf(subscribeStore.getMqttQoS()) : mqttQoS;
@@ -140,7 +140,7 @@ public class Publish {
                     grozaSessionStoreService.get(subscribeStore.getClientId()).getChannel().writeAndFlush(publishMessage);
                 }
             }
-        });
+        }
     }
 
     private void sendPubAckMessage(Channel channel, int messageId) {

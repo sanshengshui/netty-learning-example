@@ -4,6 +4,8 @@ import cn.hutool.core.util.StrUtil;
 import com.sanshengshui.iot.common.message.GrozaMessageIdService;
 import com.sanshengshui.iot.common.message.GrozaRetainMessageStoreService;
 import com.sanshengshui.iot.common.message.RetainMessageStore;
+import com.sanshengshui.iot.common.session.GrozaSessionStoreService;
+import com.sanshengshui.iot.common.session.SessionStore;
 import com.sanshengshui.iot.common.subscribe.GrozaSubscribeStoreService;
 import com.sanshengshui.iot.common.subscribe.SubscribeStore;
 import io.netty.buffer.Unpooled;
@@ -20,6 +22,8 @@ import java.util.List;
  */
 @Slf4j
 public class Subscribe {
+
+    private GrozaSessionStoreService grozaSessionStoreService;
 
     private GrozaSubscribeStoreService grozaSubscribeStoreService;
 
@@ -40,25 +44,21 @@ public class Subscribe {
         if (this.validTopicFilter(topicSubscriptions)) {
             String clientId = (String) channel.attr(AttributeKey.valueOf("clientId")).get();
             List<Integer> mqttQoSList = new ArrayList<Integer>();
-            topicSubscriptions.forEach(topicSubscription -> {
-                String topicFilter = topicSubscription.topicName();
-                MqttQoS mqttQoS = topicSubscription.qualityOfService();
+            for(MqttTopicSubscription mqttTopicSubscription : topicSubscriptions){
+                String topicFilter = mqttTopicSubscription.topicName();
+                MqttQoS mqttQoS = mqttTopicSubscription.qualityOfService();
+                MqttSubAckMessage subAckMessage = (MqttSubAckMessage) MqttMessageFactory.newMessage(
+                        new MqttFixedHeader(MqttMessageType.SUBACK, false, mqttQoS, false, 0),
+                        MqttMessageIdVariableHeader.from(msg.variableHeader().messageId()),
+                        new MqttSubAckPayload(mqttQoSList));
+                channel.writeAndFlush(subAckMessage);
+                this.sendRetainMessage(channel, topicFilter, mqttQoS);
+
                 SubscribeStore subscribeStore = new SubscribeStore(clientId, topicFilter, mqttQoS.value());
                 grozaSubscribeStoreService.put(topicFilter, subscribeStore);
                 mqttQoSList.add(mqttQoS.value());
                 log.info("SUBSCRIBE - clientId: {}, topFilter: {}, QoS: {}", clientId, topicFilter, mqttQoS.value());
-            });
-            MqttSubAckMessage subAckMessage = (MqttSubAckMessage) MqttMessageFactory.newMessage(
-                    new MqttFixedHeader(MqttMessageType.SUBACK, false, MqttQoS.AT_MOST_ONCE, false, 0),
-                    MqttMessageIdVariableHeader.from(msg.variableHeader().messageId()),
-                    new MqttSubAckPayload(mqttQoSList));
-            channel.writeAndFlush(subAckMessage);
-            // 发布保留消息
-            topicSubscriptions.forEach(topicSubscription -> {
-                String topicFilter = topicSubscription.topicName();
-                MqttQoS mqttQoS = topicSubscription.qualityOfService();
-                this.sendRetainMessage(channel, topicFilter, mqttQoS);
-            });
+            }
         } else {
             channel.close();
         }
