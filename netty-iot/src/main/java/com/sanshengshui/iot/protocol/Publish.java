@@ -129,7 +129,7 @@ public class Publish {
                     grozaSessionStoreService.get(subscribeStore.getClientId()).getChannel().writeAndFlush(publishMessage);
                 }
                 if (respQoS == MqttQoS.EXACTLY_ONCE) {
-                    int messageId = grozaMessageIdService.getNextMessageId();
+                    int messageId = grozaMessageIdService.getNextMessageId() + 1;
                     MqttPublishMessage publishMessage = (MqttPublishMessage) MqttMessageFactory.newMessage(
                             new MqttFixedHeader(MqttMessageType.PUBLISH, dup, respQoS, retain, 0),
                             new MqttPublishVariableHeader(topic, messageId), Unpooled.buffer().writeBytes(messageBytes));
