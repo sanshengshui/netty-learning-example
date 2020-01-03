@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author james mu
  * @date 2019/12/10 17:16
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.sanshengshui.webflux"})
 public class Application {
 
     public static void main(String[] args) {
