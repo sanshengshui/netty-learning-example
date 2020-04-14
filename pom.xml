@@ -62,6 +62,8 @@
         <!-- 高级 - Netty特性,源码篇 start-->
         <module>netty-design-patterns-chain of responsibility</module>
         <module>netty-design-patterns-singleton</module>
+        <module>netty-design-patterns-iterator</module>
+        <module>netty-design-patterns-decorator</module>
         <!-- 高级 - Netty特性,源码篇 end -->
 
     </modules>
