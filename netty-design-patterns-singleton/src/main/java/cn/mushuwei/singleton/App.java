@@ -1,7 +1,6 @@
 package cn.mushuwei.singleton;
 
-import cn.mushuwei.singleton.type.MouseDriver;
-import cn.mushuwei.singleton.type.ThreadSafeLazyLoadedMouseDriver;
+import cn.mushuwei.singleton.type.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,9 +21,27 @@ public class App {
         LOGGER.info("mouseDriver2={}", mouseDriver2);
 
         // lazily initialized singleton
-        ThreadSafeLazyLoadedMouseDriver threadSafeIvoryTower1 = ThreadSafeLazyLoadedMouseDriver.getInstance();
-        ThreadSafeLazyLoadedMouseDriver threadSafeIvoryTower2 = ThreadSafeLazyLoadedMouseDriver.getInstance();
-        LOGGER.info("threadSafeIvoryTower1={}", threadSafeIvoryTower1);
-        LOGGER.info("threadSafeIvoryTower2={}", threadSafeIvoryTower2);
+        ThreadSafeLazyLoadedMouseDriver threadSafeMouseDriver1 = ThreadSafeLazyLoadedMouseDriver.getInstance();
+        ThreadSafeLazyLoadedMouseDriver threadSafeMouseDriver2 = ThreadSafeLazyLoadedMouseDriver.getInstance();
+        LOGGER.info("threadSafeMouseDriver1={}", threadSafeMouseDriver1);
+        LOGGER.info("threadSafeMouseDriver2={}", threadSafeMouseDriver2);
+
+        // enum singleton
+        EnumMouseDriver enumMouseDriver1 = EnumMouseDriver.INSTANCE;
+        EnumMouseDriver enumMouseDriver2 = EnumMouseDriver.INSTANCE;
+        LOGGER.info("enumMouseDriver1={}", enumMouseDriver1);
+        LOGGER.info("enumMouseDriver2={}", enumMouseDriver2);
+
+        // double checked locking
+        ThreadSafeDoubleCheckLocking dcl1 = ThreadSafeDoubleCheckLocking.getInstance();
+        LOGGER.info(dcl1.toString());
+        ThreadSafeDoubleCheckLocking dcl2 = ThreadSafeDoubleCheckLocking.getInstance();
+        LOGGER.info(dcl2.toString());
+
+        // initialize on demand holder idiom
+        InitializingOnDemandHolderIdiom demandHolderIdiom = InitializingOnDemandHolderIdiom.getInstance();
+        LOGGER.info(demandHolderIdiom.toString());
+        InitializingOnDemandHolderIdiom demandHolderIdiom2 = InitializingOnDemandHolderIdiom.getInstance();
+        LOGGER.info(demandHolderIdiom2.toString());
     }
 }
