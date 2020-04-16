@@ -9,7 +9,28 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <name>netty :: design patterns :: decorator</name>
     <artifactId>netty-design-patterns-decorator</artifactId>
+    <description>装饰器在Netty里面的应用</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+        </dependency>
+    </dependencies>
 
 
 </project>
