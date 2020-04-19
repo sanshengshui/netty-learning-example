@@ -9,7 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <name>netty :: design patterns :: iterator</name>
     <artifactId>netty-design-patterns-iterator</artifactId>
+    <description>迭代器在Netty里面的应用</description>
 
     <dependencies>
         <dependency>
