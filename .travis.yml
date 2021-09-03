@@ -4,3 +4,6 @@ jdk:
   - openjdk8
 
 install: mvn install package -DskipTests=true -Dmaven.javadoc.skip=true
+cache:
+  directories:
+  - $HOME/.m2
