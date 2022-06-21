@@ -16,7 +16,7 @@
 
     <properties>
         <spring-boot.version>2.0.5.RELEASE</spring-boot.version>
-        <mysql.version>8.0.12</mysql.version>
+        <mysql.version>8.0.28</mysql.version>
         <netty-all.version>4.1.42.Final</netty-all.version>
         <guava.version>23.0</guava.version>
         <lombok.version>1.16.12</lombok.version>
